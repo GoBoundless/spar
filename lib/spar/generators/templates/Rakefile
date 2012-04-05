@@ -1,5 +1,8 @@
 require 'bundler'
 Bundler.require
 
-require './config/application'
+task :environment do
+  require './config/application'
+end
+
 require 'spar/tasks'
