@@ -1,4 +1,4 @@
-require './config/app'
+require './config/application'
 
 map "/assets" do
   run App.assets[:env]

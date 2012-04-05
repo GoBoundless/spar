@@ -1,10 +1,10 @@
 require 'rbconfig'
 
-if RUBY_VERSION < '1.9.3'
+if RUBY_VERSION < '1.9.2'
   desc = defined?(RUBY_DESCRIPTION) ? RUBY_DESCRIPTION : "ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE})"
   abort <<-end_message
 
-    Spar requires Ruby 1.9.3+.
+    Spar requires Ruby 1.9.2+.
 
     You're running
       #{desc}
@@ -19,6 +19,11 @@ require 'spar/version'
 
 if ['--version', '-v'].include?(ARGV.first)
   puts "Spar #{Spar::VERSION}"
+  exit(0)
+end
+
+if ARGV.first.nil?
+  puts "Please specify a name for your new app like so: 'spar APP_NAME'"
   exit(0)
 end
 
