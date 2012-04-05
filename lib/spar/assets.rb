@@ -1,7 +1,7 @@
 require 'sprockets'
-require 'sass'
 require 'sprockets-sass'
 require 'sprockets-helpers'
+require 'coffee_script'
 
 module Spar
   module Assets

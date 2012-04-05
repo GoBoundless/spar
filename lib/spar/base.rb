@@ -1,6 +1,7 @@
 require 'rbconfig'
 require 'sinatra/base'
 require 'haml'
+require 'sass'
 
 module Spar
   class Base < Sinatra::Base

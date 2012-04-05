@@ -14,6 +14,7 @@ module Spar
       def generate(name)
         directory 'templates', name
         inside name do
+          run('chmod +x script/*')
           empty_directory_with_gitkeep "public"
           empty_directory "lib"
           empty_directory_with_gitkeep "lib/tasks"
