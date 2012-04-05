@@ -1,23 +1,5 @@
-task :environment do
-  require './config/app'
-  require './lib/static_compiler'
-end
+require 'bundler'
+Bundler.require
 
-namespace :assets do
-  desc "Compile all the assets"
-  task :precompile => :clean do
-    target   = File.join(App.public_folder, App.assets[:prefix])
-    compiler = Sprockets::StaticCompiler.new(App.assets[:env], target, App.assets[:precompile],
-      :manifest_path => target,
-      :digest => configatron.assets.digest,
-      :manifest => configatron.assets.digest
-    )
-    compiler.compile
-  end
-
-  desc "Remove compiled assets"
-  task :clean => :environment do
-    public_asset_path = File.join(App.public_folder, App.assets[:prefix])
-    rm_rf public_asset_path, :secure => true
-  end
-end
+require './config/application'
+require 'spar/tasks'

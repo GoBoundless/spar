@@ -6,11 +6,13 @@ require 'sprockets-helpers'
 module Spar
   module Assets
 
-    DEFAULT_DIRS   = ['stylesheets', 'javascripts', 'images', 'fonts']
-    DEFAULT_PREFIX = 'assets'
+    DEFAULT_DIRS       = ['stylesheets', 'javascripts', 'images', 'fonts']
+    DEFAULT_PRECOMPILE = [ /\w+\.(?!js|css).+/, /application.(css|js)$/ ]
+    DEFAULT_PREFIX     = 'assets'
 
     def self.registered(app)
       app.set :asset_env, Sprockets::Environment.new(app.root)
+      app.set :asset_precomile, app.respond_to?(:asset_precomile) ? app.asset_precomile : DEFAULT_PRECOMPILE
       app.set :asset_dirs, app.respond_to?(:asset_dirs) ? app.asset_dirs : DEFAULT_DIRS
       app.set :asset_prefix, app.respond_to?(:asset_prefix) ? app.asset_prefix : DEFAULT_PREFIX
       app.set :asset_path, File.join(app.root, app.asset_prefix)

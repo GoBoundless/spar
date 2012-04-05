@@ -15,9 +15,9 @@ module Spar
         find_root
 
         set :environment,   (ENV['RACK_ENV'] || :development).to_sym
-        set :root,          File.join(Spar.root, 'app')
         set :public_path,   File.join(Spar.root, 'public')
         set :library_path,  File.join(Spar.root, 'lib')
+        set :root,          File.join(Spar.root, 'app')
 
         Dir[File.join(library_path, '*.rb')].each {|file| autoload file }
 

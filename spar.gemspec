@@ -32,4 +32,5 @@ Gem::Specification.new do |s|
   s.add_dependency "sprockets-helpers",  '~> 0.2',  '>= 0.2'
   s.add_dependency "bundler",            '~> 1.0',  '>= 1.0.18'
   s.add_dependency "thor",               '~> 0.14', '>= 0.14.6'
+  s.add_dependency "rake",               '~> 0.9',  '>= 0.9.2'
 end

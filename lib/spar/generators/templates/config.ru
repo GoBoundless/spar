@@ -1,7 +1,7 @@
 require './config/application'
 
 map "/assets" do
-  run App.assets[:env]
+  run App.asset_env
 end
 
 map "/" do
