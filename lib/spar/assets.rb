@@ -29,6 +29,7 @@ module Spar
 
       app.asset_dirs.each do |asset_type|
         app.asset_env.append_path(File.join(app.asset_path, asset_type))
+        app.asset_env.append_path(File.join(Spar.root, 'lib', DEFAULT_PREFIX, asset_type))
         app.asset_env.append_path(File.join(Spar.root, 'vendor', DEFAULT_PREFIX, asset_type))
         Gem.loaded_specs.each do |name, gem|
           app.asset_env.append_path(File.join(gem.full_gem_path, 'vendor', DEFAULT_PREFIX, asset_type))
