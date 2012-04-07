@@ -51,7 +51,6 @@ module Spar
           sources.collect do |source|
             if settings.assets_debug && asset = asset_for(source, 'js')
               asset.to_a.map { |dep|
-                puts dep.inspect
                 javascript_tag(settings.asset_digests ? dep.digest_path : dep.logical_path)
               }
             else
