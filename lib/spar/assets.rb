@@ -18,12 +18,14 @@ module Spar
       app.set :asset_path, File.join(app.root, app.asset_prefix)
 
       app.configure do
+        app.set :assets_debug, false
         app.set :asset_digests, true
         app.set :asset_host, '/'
       end
 
       app.configure :development do
-        app.set :asset_digests, true
+        app.set :assets_debug, true
+        app.set :asset_digests, false
         app.set :asset_host, '/'
       end
 
@@ -44,6 +46,33 @@ module Spar
 
       app.helpers do
         include Sprockets::Helpers
+
+        def javascript_include_tag(*sources)
+          sources.collect do |source|
+            if settings.assets_debug && asset = asset_for(source, 'js')
+              asset.to_a.map { |dep|
+                puts dep.inspect
+                javascript_tag(settings.asset_digests ? dep.digest_path : dep.logical_path)
+              }
+            else
+              javascript_tag(source)
+            end
+          end.join("\n")
+        end
+
+        def javascript_tag(source)
+          "<script src='#{javascript_path(source)}'></script>"
+        end
+
+        def asset_for(source, ext)
+          if ext && File.extname(source) != ".#{ext}"
+            source = "#{source}.#{ext}"
+          end
+
+          return nil if source =~ Sprockets::Helpers::URI_MATCH
+
+          settings.asset_env[source]
+        end
       end
 
     end
