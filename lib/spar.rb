@@ -3,6 +3,7 @@ module Spar
   autoload :Base, 'spar/base'
   autoload :Assets, 'spar/assets'
   autoload :StaticCompiler, 'spar/static_compiler'
+  autoload :Helpers, 'spar/helpers'
 
   class << self
 

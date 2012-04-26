@@ -1,12 +1,11 @@
 namespace :assets do
   desc "Compile all the assets"
   task :precompile => :clean do
-    target   = File.join(App.public_path, App.asset_prefix)
-    compiler = Spar::StaticCompiler.new(App.asset_env, target, App.asset_precomile,
-      :manifest_path => target,
-      :digest => App.asset_digests,
-      :manifest => App.asset_digests
-    )
+    Spar::Helpers.configure do |config|
+      config.compile_assets    = true
+    end
+
+    compiler = Spar::StaticCompiler.new(App)
     compiler.compile
   end
 

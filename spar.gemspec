@@ -29,8 +29,9 @@ Gem::Specification.new do |s|
   s.add_dependency "uglifier",           '~> 1.0',  '>= 1.0.3'
   s.add_dependency "sprockets",          '~> 2.4',  '>= 2.4.0'
   s.add_dependency "sprockets-sass",     '~> 0.5',  '>= 0.5'
-  s.add_dependency "sprockets-helpers",  '~> 0.2',  '>= 0.2'
   s.add_dependency "bundler",            '~> 1.0',  '>= 1.0.18'
   s.add_dependency "thor",               '~> 0.14', '>= 0.14.6'
   s.add_dependency "rake",               '~> 0.9',  '>= 0.9.2'
+  s.add_dependency "rack-test",          '~> 0.6',  '>= 0.6.1'
+  s.add_dependency 'test-unit'
 end
