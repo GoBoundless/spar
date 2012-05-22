@@ -4,6 +4,7 @@ module Spar
   autoload :Assets, 'spar/assets'
   autoload :StaticCompiler, 'spar/static_compiler'
   autoload :Helpers, 'spar/helpers'
+  autoload :CssCompressor, 'spar/css_compressor'
 
   class << self
 

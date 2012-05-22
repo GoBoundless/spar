@@ -1,6 +1,7 @@
 require 'sprockets'
 require 'sprockets-sass'
 require 'coffee_script'
+require 'uglifier'
 
 module Spar
   module Assets
@@ -22,6 +23,8 @@ module Spar
         app.set :asset_digest, true unless app.respond_to?(:asset_digests)
         app.set :asset_host, nil unless app.respond_to?(:asset_host)
         app.set :asset_compile, false unless app.respond_to?(:asset_compile)
+        app.asset_env.js_compressor = Uglifier.new(:mangle => false)
+        app.asset_env.css_compressor = CssCompressor.new
       end
 
       app.configure :development, :test do
