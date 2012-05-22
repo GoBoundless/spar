@@ -4,6 +4,8 @@ require 'rack/test'
 module Spar
   class StaticCompiler
 
+    VIEW_PATH_SPLITER = /(.*)\/([^\/]+?)/
+
     attr_accessor :app, :env, :target, :paths
 
     def self.load_tasks
@@ -11,12 +13,13 @@ module Spar
     end
 
     def initialize(app, options = {})
-      @app       = app
-      @env       = app.asset_env
-      @target    = File.join(app.public_path, app.asset_prefix)
-      @paths     = App.asset_precomile
-      @digest    = app.asset_digest
-      @zip_files = options.delete(:zip_files) || /\.(?:css|html|js|svg|txt|xml)$/
+      @app        = app
+      @env        = app.asset_env
+      @target     = File.join(app.public_path, app.asset_prefix)
+      @paths      = App.asset_precomile
+      @digest     = app.asset_digest
+      @zip_files  = options.delete(:zip_files) || /\.(?:css|html|js|svg|txt|xml)$/
+      @view_paths = app.precompile_view_paths || []
     end
 
     def compile
@@ -29,8 +32,10 @@ module Spar
       end
       write_manifest(manifest)
       browser = Rack::Test::Session.new(Rack::MockSession.new(@app))
-      browser.get('/')
-      write_homepage(browser.last_response.body)
+      @view_paths.each do |path|
+        browser.get(path)
+        write_view(path, browser.last_response.body)
+      end
     end
 
     def write_manifest(manifest)
@@ -40,9 +45,11 @@ module Spar
       end
     end
 
-    def write_homepage(body)
-      FileUtils.mkdir_p(@target)
-      File.open("#{@target}/index.html", 'wb') do |f|
+    def write_view(path, body)
+      path = '/index' if path == '/'
+      filename = File.join(target, path)
+      FileUtils.mkdir_p File.dirname(filename)
+      File.open("#{filename}.html", 'wb') do |f|
         f.write(body)
       end
     end
