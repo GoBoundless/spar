@@ -1,4 +1,7 @@
 require 'find'
+require 'mime/types'
+require 'aws-sdk'
+require 'cloudfront-invalidator'
 
 # MIME::Types has incomplete knowledge of how web fonts get served, and
 # complains when we try to fix it.
