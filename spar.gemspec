@@ -34,4 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rake",               '~> 0.9',  '>= 0.9.2'
   s.add_dependency "rack-test",          '~> 0.6',  '>= 0.6.1'
   s.add_dependency 'test-unit'
+  s.add_dependency 'mime-types'
+  s.add_dependency 'aws-sdk'
+  s.add_dependency 'cloudfront-invalidator'
 end
