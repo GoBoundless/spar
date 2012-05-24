@@ -46,12 +46,19 @@ module Spar
     end
 
     def write_view(path, body)
-      path = '/index' if path == '/'
-      filename = File.join(target, path)
-      FileUtils.mkdir_p File.dirname(filename)
-      File.open("#{filename}.html", 'wb') do |f|
+      path = File.join(target,path)
+      puts path
+      FileUtils.mkdir_p path
+      File.open(File.join(path,"index.html"), 'wb') do |f|
         f.write(body)
       end
+      
+      # path = '/index' if path == '/'
+      # filename = File.join(target, path)
+      # FileUtils.mkdir_p File.dirname(filename)
+      # File.open("#{filename}.html", 'wb') do |f|
+      #   f.write(body)
+      # end
     end
 
     def write_asset(asset)
