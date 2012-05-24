@@ -47,7 +47,12 @@ namespace :deploy do
 
   desc "Upload assets to S3 as atomically as possible."
   task :upload do
-    bucket = AWS::S3.new.buckets[App.s3_bucket]
+    s3 = AWS::S3.new(
+      :access_key_id => App.aws_access_key_id,
+      :secret_access_key => App.aws_secret_access_key
+    )
+
+    bucket = s3.buckets[App.s3_bucket]
 
     Dir.chdir(App.public_path) do
 
@@ -113,8 +118,8 @@ namespace :deploy do
       # just icing on the cake.
       STDERR.puts "Issuing invalidation request for #{to_invalidate.count} objects."
       CloudfrontInvalidator.new(
-        AWS.config.access_key_id,
-        AWS.config.secret_access_key,
+        App.aws_access_key_id,
+        App.aws_secret_access_key,
         App.cloudfront_distribution,
       ).invalidate(to_invalidate)
 
