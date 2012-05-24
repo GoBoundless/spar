@@ -117,6 +117,7 @@ module Spar
         source = rewrite_extension(source, dir, options[:ext]) if options[:ext]
         source = rewrite_asset_path(source, dir, options)
         source = rewrite_host_and_protocol(source, options[:protocol])
+        source = rewrite_for_compression(source)
         source
       end
 
@@ -153,6 +154,14 @@ module Spar
       def rewrite_extension(source, dir, ext)
         if ext && File.extname(source) != ".#{ext}"
           "#{source}.#{ext}"
+        else
+          source
+        end
+      end
+
+      def rewrite_for_compression(source)
+        if App.request_gzip and %w[.js .css].index File.extname(source)
+          source + '.gz'
         else
           source
         end
