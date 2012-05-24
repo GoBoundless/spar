@@ -47,7 +47,6 @@ module Spar
 
     def write_view(path, body)
       path = File.join(target,path)
-      puts path
       FileUtils.mkdir_p path
       File.open(File.join(path,"index.html"), 'wb') do |f|
         f.write(body)
