@@ -55,6 +55,7 @@ namespace :deploy do
 
     Dir.chdir(App.public_path) do
 
+      # First, deploy any new assets.
       local = Find.find( 'assets' ).reject{|f| %w[assets/index.html assets/manifest.yml].index f}.reject! { |f| File.directory? f }
       remote = bucket.objects.with_prefix( 'assets/' ).map{|o|o.key}.reject{|o| o =~ /\/$/ }
       to_delete = remote - local
@@ -74,20 +75,19 @@ namespace :deploy do
         logger "Uploading #{file}", headers
         bucket.objects[file].write(headers.merge :data => File.open(file).read )
 
-        # TODO: Make asset available without version component and short TTL for inclusion long-lived SEO documents
+        # TODO Make asset available without version component and with short TTL for inclusion long-lived SEO documents
 
       end
 
       # Copy `assets/favicon-hash.ico` (if changed in this deployment) to /favicon.ico.
       to_upload.select{ |path| path =~ /favicon/}.each do |hashed| # Should only be one.
-        unhashed = hashed.gsub(/assets\/favicon-[a-f0-9]{32}\.ico/,'favicon.ico')
         logger "Copying favicon.ico into place from #{hashed}"
         bucket.objects[hashed].copy_to('favicon.ico', { :acl => :public_read })
         to_invalidate << 'favicon.ico'
       end
 
-      # Upload files named index.html unconditionally
       # TODO Could this potentially be made cleaner by accessing App.precompile_view_paths?
+      # Upload files named index.html unconditionally
       Find.find( '.' ).to_a.select{|f| File.basename(f) == 'index.html' }.map{|f| f.gsub('./','') }.sort_by{|f|f.length}.each do |file|
         headers = {
           :content_type => 'text/html; charset=utf-8',
@@ -98,7 +98,7 @@ namespace :deploy do
         bucket.objects[file].write(headers.merge :data => File.read(file) )
         to_invalidate << 'file'
       end
-      
+
       # Remove obsolete objects once they are sufficiently old
       to_delete.each do |file|
         if Time.now - bucket.objects[file].last_modified > 60*60
