@@ -19,7 +19,7 @@ module Spar
       app.set :manifest_path, File.join(app.public_path, app.asset_prefix, "manifest.yml")
 
       app.configure :production, :staging do
-        app.set :request_gzip, true unless app.respond_to?(:gzip)
+        app.set :request_gzip, true unless app.respond_to?(:request_gzip)
         app.set :assets_debug, false unless app.respond_to?(:assets_debug)
         app.set :asset_digest, true unless app.respond_to?(:asset_digests)
         app.set :asset_host, nil unless app.respond_to?(:asset_host)
@@ -29,7 +29,7 @@ module Spar
       end
 
       app.configure :development, :test do
-        app.set :request_gzip, false unless app.respond_to?(:gzip)
+        app.set :request_gzip, false unless app.respond_to?(:request_gzip)
         app.set :assets_debug, true unless app.respond_to?(:assets_debug)
         app.set :asset_digest, false unless app.respond_to?(:asset_digests)
         app.set :asset_host, nil unless app.respond_to?(:asset_host)
