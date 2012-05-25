@@ -35,8 +35,7 @@ namespace :assets do
 
   desc "Remove compiled assets"
   task :clean => :environment do
-    public_asset_path = File.join(App.public_path, App.asset_prefix)
-    system "/bin/rm", "-rf", public_asset_path
+    system "/bin/rm", "-rf", App.public_path
   end
 end
 
