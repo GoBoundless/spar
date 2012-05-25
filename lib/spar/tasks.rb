@@ -71,7 +71,7 @@ namespace :deploy do
         }
         headers[:content_encoding] = :gzip if %w[svgz gz].index file.split('.').last
         
-        STDERR.puts "Uploading #{file}", headers
+        logger "Uploading #{file}", headers
         bucket.objects[file].write(headers.merge :data => File.open(file).read )
 
         # TODO: Make asset available without version component and short TTL for inclusion long-lived SEO documents
@@ -81,25 +81,28 @@ namespace :deploy do
       # Copy `assets/favicon-hash.ico` (if changed in this deployment) to /favicon.ico.
       to_upload.select{ |path| path =~ /favicon/}.each do |hashed| # Should only be one.
         unhashed = hashed.gsub(/assets\/favicon-[a-f0-9]{32}\.ico/,'favicon.ico')
-        STDERR.puts "Copying favicon.ico into place from #{hashed}"
+        logger "Copying favicon.ico into place from #{hashed}"
         bucket.objects[hashed].copy_to('favicon.ico', { :acl => :public_read })
         to_invalidate << 'favicon.ico'
       end
 
-      # Upload index.html unconditionally
-      headers = {
-        :content_type => 'text/html; charset=utf-8',
-        :cache_control => 'public, max-age=60',
-        :acl => :public_read
-      }
-      STDERR.puts 'Uploading index.html', headers
-      bucket.objects['index.html'].write(headers.merge :data => File.open('assets/index.html').read )
-      to_invalidate << 'index.html'
+      # Upload files named index.html unconditionally
+      # TODO Could this potentially be made cleaner by accessing App.precompile_view_paths?
+      Find.find( '.' ).to_a.select{|f| File.basename(f) == 'index.html' }.map{|f| f.gsub('./','') }.sort_by{|f|f.length}.each do |file|
+        headers = {
+          :content_type => 'text/html; charset=utf-8',
+          :cache_control => 'public, max-age=60',
+          :acl => :public_read
+        }
+        logger "Uploading #{file}", headers
+        bucket.objects[file].write(headers.merge :data => File.read(file) )
+        to_invalidate << 'file'
+      end
       
       # Remove obsolete objects once they are sufficiently old
       to_delete.each do |file|
         if Time.now - bucket.objects[file].last_modified > 60*60
-          STDERR.puts "Deleting #{file}"
+          logger "Deleting #{file}"
           bucket.objects[file].delete
         end
       end
@@ -115,7 +118,7 @@ namespace :deploy do
       # We have a very low TTL for index.html, and everything else is
       # essentially content-addressible, so invalidating CloudFront is really
       # just icing on the cake.
-      STDERR.puts "Issuing invalidation request for #{to_invalidate.count} objects."
+      logger "Issuing invalidation request for #{to_invalidate.count} objects."
       CloudfrontInvalidator.new(
         App.aws_access_key_id,
         App.aws_secret_access_key,
@@ -125,5 +128,10 @@ namespace :deploy do
     end
 
   end
+
+  def logger(*args)
+    STDERR.puts args.map{|x|x.to_s}.join(' ')
+  end
+
 
 end
