@@ -6,7 +6,7 @@ module Spar
 
     VIEW_PATH_SPLITER = /(.*)\/([^\/]+?)/
 
-    attr_accessor :app, :env, :target, :paths
+    attr_accessor :app, :env, :asset_path, :paths
 
     def self.load_tasks
       Dir[File.expand_path('../tasks/spar.rake', __FILE__)].each { |ext| load ext }
@@ -15,7 +15,8 @@ module Spar
     def initialize(app, options = {})
       @app        = app
       @env        = app.asset_env
-      @target     = File.join(app.public_path, app.asset_prefix)
+      @public_path = app.public_path
+      @asset_path = File.join(app.public_path, app.asset_prefix)
       @paths      = App.asset_precomile
       @digest     = app.asset_digest
       @zip_files  = options.delete(:zip_files) || /\.(?:css|html|js|svg|txt|xml)$/
@@ -39,30 +40,23 @@ module Spar
     end
 
     def write_manifest(manifest)
-      FileUtils.mkdir_p(@target)
-      File.open("#{@target}/manifest.yml", 'wb') do |f|
+      FileUtils.mkdir_p(@asset_path)
+      File.open("#{@asset_path}/manifest.yml", 'wb') do |f|
         YAML.dump(manifest, f)
       end
     end
 
     def write_view(path, body)
-      path = File.join(target,path)
+      path = File.join(@public_path,path)
       FileUtils.mkdir_p path
       File.open(File.join(path,"index.html"), 'wb') do |f|
         f.write(body)
       end
-      
-      # path = '/index' if path == '/'
-      # filename = File.join(target, path)
-      # FileUtils.mkdir_p File.dirname(filename)
-      # File.open("#{filename}.html", 'wb') do |f|
-      #   f.write(body)
-      # end
     end
 
     def write_asset(asset)
       path_for(asset).tap do |path|
-        filename = File.join(target, path)
+        filename = File.join(asset_path, path)
         FileUtils.mkdir_p File.dirname(filename)
         asset.write_to(filename)
         asset.write_to("#{filename}.gz") if filename.to_s =~ @zip_files
