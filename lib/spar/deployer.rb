@@ -9,13 +9,14 @@ module Spar
 
     def initialize(app, options = {})
       @app = app
-      @s3 = AWS::S3.new(
+      AWS.config(
         :access_key_id      => @app.aws_access_key_id,
-        :secret_access_key  => @app.aws_secret_access_key
+        :secret_access_key  => @app.aws_secret_access_key,
         :logger             => Logger.new($stderr),
-        :log_level          => :info,
         :log_formatter      => AWS::Core::LogFormatter.colored
       )
+      AWS.config.logger.level = Logger::WARN
+      @s3 = AWS::S3.new
       @bucket         = @s3.buckets[App.s3_bucket]
       @max_age        = options.delete(:max_age) || 60 * 60 * 24 * 3 # 3 days 
       @zip_files      = options.delete(:zip_files) || /\.(?:css|html|js|svg|txt|xml)$/
@@ -26,7 +27,7 @@ module Spar
     def upload_assets
       Dir.chdir(@app.public_path) do
         local = Find.find( 'assets' ).reject{|f| %w[assets/index.html assets/manifest.yml].index f}.reject! { |f| File.directory? f }
-        remote = bucket.objects.with_prefix( 'assets/' ).map{|o|o.key}.reject{|o| o =~ /\/$/ }
+        remote = @bucket.objects.with_prefix( 'assets/' ).map{|o|o.key}.reject{|o| o =~ /\/$/ }
         to_delete = remote - local
         to_upload = local - remote
         @to_invalidate << to_upload
@@ -44,8 +45,8 @@ module Spar
           logger "Uploading #{file}", headers
           @bucket.objects[file].write(headers.merge :data => File.read(file) )
         end
+        age_out to_delete
       end
-      age_out to_delete
     end
 
     # TODO I really want this to call StaticCompiler#write_manifest directly. Another day.
@@ -58,16 +59,16 @@ module Spar
             :acl => :public_read
           }
           logger "Uploading #{file}", headers
-          bucket.objects[file].write(headers.merge :data => File.read(file) )
-          to_invalidate << 'file'
+          @bucket.objects[file].write(headers.merge :data => File.read(file) )
+          @to_invalidate << 'file'
         end
       end
     end
 
     def upload_downloads
       Dir.chdir(File.join(@app.root,'assets')) do
-        local = Find.find( 'downloads' ).reject! { |f| File.directory? f }
-        remote = bucket.objects.with_prefix( 'downloads/' ).map{|o|o.key}.reject{|o| o =~ /\/$/ }
+        local = Find.find( 'downloads' ).to_a.reject! { |f| File.directory? f }
+        remote = @bucket.objects.with_prefix( 'downloads/' ).map{|o|o.key}.reject{|o| o =~ /\/$/ }
         to_delete = remote - local
         to_upload = local - remote
         @to_invalidate << to_upload
@@ -85,8 +86,8 @@ module Spar
           logger "Uploading #{file}", headers
           @bucket.objects[file].write(headers.merge :data => File.read(file) )
         end
+        age_out to_delete
       end
-      age_out to_delete
     end
 
     # Copy `assets/favicon-hash.ico` (if changed in this deployment) to /favicon.ico.
@@ -129,6 +130,8 @@ module Spar
     end
 
     def invalidate_cloudfront
+      @to_invalidate.flatten!
+      @to_invalidate.uniq!
       logger "Issuing invalidation request for #{@to_invalidate.count} objects."
       CloudfrontInvalidator.new(
         @app.aws_access_key_id,
