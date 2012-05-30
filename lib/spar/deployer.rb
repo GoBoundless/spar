@@ -134,12 +134,14 @@ module Spar
     def invalidate_cloudfront
       @to_invalidate.flatten!
       @to_invalidate.uniq!
-      logger "Issuing invalidation request for #{@to_invalidate.count} objects."
+      logger "Issuing CloudFront invalidation request for #{@to_invalidate.count} objects."
       CloudfrontInvalidator.new(
         @app.aws_access_key_id,
         @app.aws_secret_access_key,
         @app.cloudfront_distribution,
-      ).invalidate(@to_invalidate)
+      ).invalidate(@to_invalidate) do |status,time|
+        puts "Invalidation #{status} after %.2f seconds" % time.to_f
+      end
     end
 
     def logger(*args)

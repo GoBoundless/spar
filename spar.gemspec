@@ -36,5 +36,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'test-unit'
   s.add_dependency 'mime-types'
   s.add_dependency 'aws-sdk'
-  s.add_dependency 'cloudfront-invalidator'
+  s.add_dependency 'cloudfront-invalidator', '~> 0.2'
 end
