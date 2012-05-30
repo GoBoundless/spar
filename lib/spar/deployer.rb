@@ -68,6 +68,7 @@ module Spar
     def upload_downloads
       # TODO This should be doing checksum comparisons so that downloads can be replaced.
       Dir.chdir(File.join(@app.root,'assets')) do
+        return unless Dir.exists? 'downloads'
         local = Find.find( 'downloads' ).to_a.reject! { |f| File.directory? f }
         remote = @bucket.objects.with_prefix( 'downloads/' ).map{|o|o.key}.reject{|o| o =~ /\/$/ }
         to_delete = remote - local
