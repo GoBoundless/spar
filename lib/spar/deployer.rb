@@ -60,7 +60,7 @@ module Spar
           }
           logger "Uploading #{file}", headers
           @bucket.objects[file].write(headers.merge :data => File.read(file) )
-          @to_invalidate << 'file'
+          @to_invalidate << file
         end
       end
     end
