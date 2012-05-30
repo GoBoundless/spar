@@ -30,7 +30,6 @@ module Spar
         remote = @bucket.objects.with_prefix( 'assets/' ).map{|o|o.key}.reject{|o| o =~ /\/$/ }
         to_delete = remote - local
         to_upload = local - remote
-        @to_invalidate << to_upload
 
         to_upload.each do |file|
 
