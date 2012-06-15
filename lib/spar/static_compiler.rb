@@ -59,7 +59,8 @@ module Spar
         filename = File.join(asset_path, path)
         FileUtils.mkdir_p File.dirname(filename)
         asset.write_to(filename)
-        asset.write_to("#{filename}.gz") if filename.to_s =~ @zip_files
+        # Use "example.txtgz" instead of "example.txt.gz" for Safari gzip workaround.
+        asset.write_to("#{filename}gz") if filename.to_s =~ @zip_files
       end
     end
 

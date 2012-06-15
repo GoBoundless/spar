@@ -161,7 +161,7 @@ module Spar
 
       def rewrite_for_compression(source)
         if App.request_gzip and %w[.js .css].index File.extname(source)
-          source + '.gz'
+          source + 'gz'
         else
           source
         end

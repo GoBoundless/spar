@@ -34,7 +34,7 @@ module Spar
         to_upload.each do |file|
 
           headers = {
-            :content_type => MIME::Types.of(file.gsub(/\.gz$/, '')).first, 
+            :content_type => MIME::Types.of(file.gsub(/\.?gz$/, '')).first, 
             :cache_control => 'public, max-age=86400',
             :acl => :public_read,
             :expires => (Time.now+60*60*24*365).httpdate
