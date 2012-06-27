@@ -12,7 +12,7 @@ module Spar
 
     def self.registered(app)
       app.set :asset_env, Sprockets::Environment.new(app.root)
-      app.set :asset_precomile, app.respond_to?(:asset_precomile) ? app.asset_precomile : DEFAULT_PRECOMPILE
+      app.set :asset_precompile, app.respond_to?(:asset_precompile) ? app.asset_precompile : DEFAULT_PRECOMPILE
       app.set :asset_dirs, app.respond_to?(:asset_dirs) ? app.asset_dirs : DEFAULT_DIRS
       app.set :asset_prefix, app.respond_to?(:asset_prefix) ? app.asset_prefix : DEFAULT_PREFIX
       app.set :asset_path, File.join(app.root, app.asset_prefix)
@@ -21,7 +21,7 @@ module Spar
       app.configure :production, :staging do
         app.set :request_gzip, true unless app.respond_to?(:request_gzip)
         app.set :assets_debug, false unless app.respond_to?(:assets_debug)
-        app.set :asset_digest, true unless app.respond_to?(:asset_digests)
+        app.set :asset_digest, true unless app.respond_to?(:asset_digest)
         app.set :asset_host, nil unless app.respond_to?(:asset_host)
         app.set :asset_compile, false unless app.respond_to?(:asset_compile)
         app.asset_env.js_compressor = Uglifier.new(:mangle => false)
@@ -31,7 +31,7 @@ module Spar
       app.configure :development, :test do
         app.set :request_gzip, false unless app.respond_to?(:request_gzip)
         app.set :assets_debug, true unless app.respond_to?(:assets_debug)
-        app.set :asset_digest, false unless app.respond_to?(:asset_digests)
+        app.set :asset_digest, false unless app.respond_to?(:asset_digest)
         app.set :asset_host, nil unless app.respond_to?(:asset_host)
         app.set :asset_compile, true unless app.respond_to?(:asset_compile)
       end

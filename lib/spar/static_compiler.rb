@@ -17,7 +17,7 @@ module Spar
       @env        = app.asset_env
       @public_path = app.public_path
       @asset_path = File.join(app.public_path, app.asset_prefix)
-      @paths      = App.asset_precomile
+      @paths      = App.asset_precompile
       @digest     = app.asset_digest
       @zip_files  = options.delete(:zip_files) || /\.(?:css|html|js|svg|txt|xml)$/
       @view_paths = app.precompile_view_paths || []
