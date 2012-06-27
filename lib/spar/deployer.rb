@@ -19,6 +19,7 @@ module Spar
       @s3 = AWS::S3.new
       @bucket         = @s3.buckets[App.s3_bucket]
       @max_age        = options.delete(:max_age) || 60 * 60 * 24 * 3 # 3 days 
+      @cache_control  = options.delete(:cache_control) || "public, max-age=#{60 * 60 * 24 * 7}"
       @zip_files      = options.delete(:zip_files) || /\.(?:css|html|js|svg|txt|xml)$/
       @view_paths     = app.precompile_view_paths || []
       @to_invalidate  = []
@@ -35,7 +36,7 @@ module Spar
 
           headers = {
             :content_type => MIME::Types.of(file.gsub(/\.?gz$/, '')).first, 
-            :cache_control => 'public, max-age=86400',
+            :cache_control => @cache_control,
             :acl => :public_read,
             :expires => (Time.now+60*60*24*365).httpdate
           }
@@ -54,7 +55,7 @@ module Spar
         Find.find( '.' ).to_a.select{|f| File.basename(f) == 'index.html' }.map{|f| f.gsub('./','') }.sort_by{|f|f.length}.each do |file|
           headers = {
             :content_type => 'text/html; charset=utf-8',
-            :cache_control => 'public, max-age=60',
+            :cache_control => @cache_control,
             :acl => :public_read
           }
           logger "Uploading #{file}", headers
