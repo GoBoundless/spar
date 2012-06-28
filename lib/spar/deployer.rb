@@ -18,7 +18,7 @@ module Spar
       AWS.config.logger.level = Logger::WARN
       @s3 = AWS::S3.new
       @bucket         = @s3.buckets[App.s3_bucket]
-      @max_age        = options.delete(:max_age) || 60 * 60 * 24 * 3 # 3 days 
+      @age_out        = options.delete(:age_out) || 60 * 60 * 24 * 3 # 3 days 
       @cache_control  = options.delete(:cache_control) || "public, max-age=#{60 * 60 * 24 * 7}"
       @zip_files      = options.delete(:zip_files) || /\.(?:css|html|js|svg|txt|xml)$/
       @view_paths     = app.precompile_view_paths || []
@@ -52,16 +52,21 @@ module Spar
     # TODO I really want this to call StaticCompiler#write_manifest directly. Another day.
     def upload_views
       Dir.chdir(@app.public_path) do
-        Find.find( '.' ).to_a.select{|f| File.basename(f) == 'index.html' }.map{|f| f.gsub('./','') }.sort_by{|f|f.length}.each do |file|
+        views = Find.find( '.' ).to_a
+          .select{ |f| File.basename(f) == 'index.html' }
+          .sort_by{ |f|f.length }
+          .map{ |f| f.gsub('./','') }
+          .flatten
+        views.each do |file|
           headers = {
             :content_type => 'text/html; charset=utf-8',
-            :cache_control => @cache_control,
+            :cache_control => 'public, max-age=86400',
             :acl => :public_read
           }
           logger "Uploading #{file}", headers
           @bucket.objects[file].write(headers.merge :data => File.read(file) )
-          @to_invalidate << file
         end
+        @to_invalidate << views.map { |f| [ f, f.gsub('/index.html', ''), f.gsub('index.html', '') ] }.flatten
       end
     end
 
@@ -106,7 +111,7 @@ module Spar
     # Remove obsolete objects once they are sufficiently old
     def age_out(list)
       list.flatten.each do |file|
-        if Time.now - @bucket.objects[file].last_modified > @max_age
+        if Time.now - @bucket.objects[file].last_modified > @age_out
           logger "Deleting #{file}"
           @bucket.objects[file].delete
         end
