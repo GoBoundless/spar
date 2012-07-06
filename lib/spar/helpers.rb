@@ -38,7 +38,7 @@ module Spar
     end
 
     def javascript_tag(src)
-      "<script src='#{src}'></script>"
+      "<script src='#{src}' charset='utf-8'></script>"
     end
 
     def stylesheet_link_tag(*sources)
@@ -63,20 +63,20 @@ module Spar
       options[:body] ? "#{path}?body=1" : path
     end
 
-    def image_path(source)
-      asset_path(source)
+    def image_path(source, options = {})
+      asset_path(source, options)
     end
 
-    def font_path(source)
-      asset_path(source)
+    def font_path(source, options = {})
+      asset_path(source, options)
     end
 
-    def javascript_path(source)
-      asset_path(source, :ext => 'js')
+    def javascript_path(source, options = {})
+      asset_path(source, options.merge(:ext => 'js'))
     end
 
-    def stylesheet_path(source)
-      asset_path(source, :ext => 'css')
+    def stylesheet_path(source, options = {})
+      asset_path(source, options.merge(:ext => 'css'))
     end
 
   private
