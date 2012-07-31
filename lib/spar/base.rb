@@ -20,6 +20,9 @@ module Spar
         set :library_path,  File.join(Spar.root, 'lib')
         set :root,          File.join(Spar.root, 'app')
 
+        config_path = "#{Spar.root}/config/environments/#{environment}.rb"
+        eval File.read(config_path), binding, config_path
+
         Dir[File.join(library_path, '*.rb')].each {|file| autoload file }
 
         puts "Started Spar Server [#{environment.to_s}]"
