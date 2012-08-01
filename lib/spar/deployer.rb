@@ -9,6 +9,9 @@ module Spar
 
     def initialize(app, options = {})
       @app = app
+      unless @app.respond_to? :aws_access_key_id and @app.respond_to? :aws_secret_access_key
+        raise ArgumentError.new(":aws_acces_key_id and :aws_secret_access_key are required")
+      end
       AWS.config(
         :access_key_id      => @app.aws_access_key_id,
         :secret_access_key  => @app.aws_secret_access_key,
@@ -137,6 +140,7 @@ module Spar
     end
 
     def invalidate_cloudfront
+      return unless @app.respond_to? :cloudfront_distribution
       @to_invalidate.flatten!
       @to_invalidate.uniq!
       logger "Issuing CloudFront invalidation request for #{@to_invalidate.count} objects."
