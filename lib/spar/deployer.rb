@@ -34,6 +34,23 @@ module Spar
         remote = @bucket.objects.with_prefix( 'assets/' ).map{|o|o.key}.reject{|o| o =~ /\/$/ }
         to_delete = remote - local
         to_upload = local - remote
+        to_check  = remote & local
+        
+        to_check.each do |file|
+          if @bucket.objects[file].etag.gsub(/\"/,'') != Digest::MD5.hexdigest(File.read(file))
+            logger "Etag mismatch for: #{file}"
+            headers = {
+              :content_type => MIME::Types.of(file.gsub(/\.?gz$/, '')).first, 
+              :cache_control => @cache_control,
+              :acl => :public_read
+            }
+            headers[:content_encoding] = :gzip if %w[svgz gz].index file.split('.').last
+            
+            logger "Uploading #{file}", headers
+            @bucket.objects[file].write(headers.merge :data => File.read(file) )
+            @to_invalidate << file
+          end
+        end
 
         to_upload.each do |file|
 
@@ -48,6 +65,7 @@ module Spar
           logger "Uploading #{file}", headers
           @bucket.objects[file].write(headers.merge :data => File.read(file) )
         end
+
         age_out to_delete
       end
     end
@@ -56,9 +74,9 @@ module Spar
     def upload_views
       Dir.chdir(@app.public_path) do
         views = Find.find( '.' ).to_a
-          .select{ |f| File.basename(f) == 'index.html' }
-          .sort_by{ |f|f.length }
-          .map{ |f| f.gsub('./','') }
+          .select { |f| File.basename(f) == 'index.html' }
+          .sort_by { |f| f.length }
+          .map { |f| f.gsub('./','') }
           .flatten
         views.each do |file|
           headers = {

@@ -6,15 +6,17 @@ require 'uglifier'
 module Spar
   module Assets
 
-    DEFAULT_DIRS       = ['stylesheets', 'javascripts', 'images', 'fonts']
-    DEFAULT_PRECOMPILE = [ /\w+\.(?!js|css).+/, /application.(css|js)$/ ]
-    DEFAULT_PREFIX     = 'assets'
+    DEFAULT_DIRS               = ['stylesheets', 'javascripts', 'images', 'fonts']
+    DEFAULT_PRECOMPILE         = [ /\w+\.(?!js|css).+/, /application.(css|js)$/ ]
+    DEFAULT_PREFIX             = 'assets'
+    DEFAULT_DIGEST_FREE_ASSETS = []
 
     def self.registered(app)
       app.set :asset_env, Sprockets::Environment.new(app.root)
       app.set :asset_precompile, app.respond_to?(:asset_precompile) ? app.asset_precompile : DEFAULT_PRECOMPILE
       app.set :asset_dirs, app.respond_to?(:asset_dirs) ? app.asset_dirs : DEFAULT_DIRS
       app.set :asset_prefix, app.respond_to?(:asset_prefix) ? app.asset_prefix : DEFAULT_PREFIX
+      app.set :digest_free_assets, app.respond_to?(:digest_free_assets) ? app.digest_free_assets : DEFAULT_DIGEST_FREE_ASSETS
       app.set :asset_path, File.join(app.root, app.asset_prefix)
       app.set :manifest_path, File.join(app.public_path, app.asset_prefix, "manifest.yml")
 

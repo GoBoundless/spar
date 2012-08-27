@@ -13,14 +13,15 @@ module Spar
     end
 
     def initialize(app, options = {})
-      @app        = app
-      @env        = app.asset_env
-      @public_path = app.public_path
-      @asset_path = File.join(app.public_path, app.asset_prefix)
-      @paths      = App.asset_precompile
-      @digest     = app.asset_digest
-      @zip_files  = options.delete(:zip_files) || /\.(?:css|html|js|svg|txt|xml)$/
-      @view_paths = app.precompile_view_paths || []
+      @app                = app
+      @env                = app.asset_env
+      @public_path        = app.public_path
+      @asset_path         = File.join(app.public_path, app.asset_prefix)
+      @paths              = App.asset_precompile
+      @digest             = app.asset_digest
+      @zip_files          = options.delete(:zip_files) || /\.(?:css|html|js|svg|txt|xml)$/
+      @view_paths         = app.precompile_view_paths || []
+      @digest_free_assets = app.digest_free_assets || []
     end
 
     def compile
@@ -79,6 +80,11 @@ module Spar
     end
 
     def path_for(asset)
+      @digest_free_assets.each do |digest_free_path|
+        if digest_free_path.match(asset.logical_path)
+          return asset.logical_path
+        end
+      end
       @digest ? asset.digest_path : asset.logical_path
     end
   end
