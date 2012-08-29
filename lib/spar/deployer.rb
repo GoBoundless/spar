@@ -41,7 +41,7 @@ module Spar
             logger "Etag mismatch for: #{file}"
             headers = {
               :content_type => MIME::Types.of(file.gsub(/\.?gz$/, '')).first, 
-              :cache_control => @cache_control,
+              :cache_control => 'public, max-age=0',
               :acl => :public_read
             }
             headers[:content_encoding] = :gzip if %w[svgz gz].index file.split('.').last
@@ -81,7 +81,7 @@ module Spar
         views.each do |file|
           headers = {
             :content_type => 'text/html; charset=utf-8',
-            :cache_control => 'public, max-age=86400',
+            :cache_control => 'public, max-age=0',
             :acl => :public_read
           }
           logger "Uploading #{file}", headers
