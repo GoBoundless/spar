@@ -3,6 +3,8 @@ require 'sprockets-sass'
 require 'coffee_script'
 require 'uglifier'
 
+Sprockets::Sass.add_sass_functions = false
+
 module Spar
   module Assets
 
