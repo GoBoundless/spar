@@ -19,8 +19,10 @@ h1,h2,h3,h4,h5,h6
 
 @-webkit-keyframes STAR-MOVE 
   0%
+    // +transform(translateX(0))
     left: 0
   100%  
+    // +transform(translateX(-10000px))
     left: -10000px
   
 
@@ -65,7 +67,10 @@ h1,h2,h3,h4,h5,h6
 
 
 #background,#foreground,#middleground
+  +transition(10ms linear)
   opacity: .25
+  
+body
   
 
 #header
@@ -74,11 +79,33 @@ h1,h2,h3,h4,h5,h6
   position: relative
   padding: 100px 0
   +border-radius(0)
+  margin: 0
   .container
     position: relative
     z-index: 1000
+  h1,h2
+    padding-left: 220px
   // background-size:16px 16px
 
+#logo
+  // position: absolute
+  // z-index: 1100
+  // right: 0
+  position: absolute
+  top: -10px
+  left: 0
+
 #content
-
-
+  +background(linear-gradient(#f9f9f9,#eee))
+  +box-shadow(rgba(0,0,0,.1) 0 -1em 1em 1em inset)
+  +text-shadow(rgba(255,255,255,1) 0 2px 0)
+  .container
+    padding-bottom: 80px
+    padding-top: 50px
+    p,li
+      font-size: 18px
+      line-height: 1.5
+    p
+      margin: 1em 0
+    // font-size: 20px
+    // line-height: 1.5
