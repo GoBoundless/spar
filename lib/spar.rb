@@ -15,7 +15,11 @@ module Spar
   DEFAULTS = {
     'digest'   => false,
     'debug'    => true,
-    'compress' => false
+    'compress' => false,
+    'js_compressor' => {
+      'mangle' => false
+    },
+    'css_compressor' => {}
   }
 
   def self.root
@@ -71,9 +75,9 @@ module Spar
       env.register_engine '.md',      Tilt::BlueClothTemplate
       env.register_engine '.textile', Tilt::RedClothTemplate
 
-      env.register_postprocessor('text/css', Spar::DirectiveProcessor)
-      env.register_postprocessor('application/javascript', Spar::DirectiveProcessor)
-      env.register_postprocessor('text/html', Spar::DirectiveProcessor)
+      env.register_postprocessor 'text/css', Spar::DirectiveProcessor
+      env.register_postprocessor 'application/javascript', Spar::DirectiveProcessor
+      env.register_postprocessor 'text/html', Spar::DirectiveProcessor
 
       env
     end
@@ -83,6 +87,7 @@ module Spar
     app = Rack::Builder.new do
 
       use Spar::Rewrite
+
       map '/' do
         run Spar.sprockets
       end
