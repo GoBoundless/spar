@@ -14,8 +14,7 @@ module Spar
 
     # desc 'build [asset1 asset2..]', 'Build project'
 
-    method_option :target, :aliases => '-t', :desc => 'Directory to compile assets to'
-    method_option :compile, :type => :boolean, :aliases => '-c', :desc => 'Compile and minify assets'
+    # method_option :target, :aliases => '-t', :desc => 'Directory to compile assets to'
 
     # def build(*assets)
     #   target = Pathname(options[:target] || './public/assets')
