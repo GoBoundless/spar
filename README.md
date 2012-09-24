@@ -26,7 +26,7 @@ $ gem install spar
 
 If using `rbenv`:
 
-```bash
+```
 rbenv rehash
 ```
 
@@ -37,9 +37,7 @@ rbenv rehash
 ```bash
 $ spar myapp
 $ cd myapp
-$ bundle install
-$ powify create www.myapp
-$ powify browse www.myapp
+$ spar server
 ```
 
   At this point, you'll see the default Spar page... congrats!
@@ -48,14 +46,14 @@ $ powify browse www.myapp
 
   Spar apps are organized into the follow folders:
 
-    /app                #assets that make your app
+    /app                #compiled assets that make your app
       /images
       /javascripts
         application.js.coffee
       /stylesheets
         application.css.sass
       /pages
-        index.haml
+        index.html.haml
     
     /config
       /environments     #configs per deployment
@@ -66,10 +64,8 @@ $ powify browse www.myapp
     /lib                #I have no idea
     /public             #I have no idea
     /vendor             #I have no idea
-    Gemfile             #optional installed pipeline gems
-    README              #optional project readme
-    Rakefile            #I have no idea
-    config.ru           #I have no idea
+    README              #your project README
+    Rakefile            #Necessary for Heroku deploys
 
 ## The Pipeline
 
