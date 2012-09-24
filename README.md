@@ -150,7 +150,7 @@ Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s
 
 ### Apache, NginX, Lighttpd, etc
 
-`rake assets:precompile` populates the `public/` directory with using `index.html` files, which any web server should be able to serve with minimal configuration.
+`rake assets:precompile` populates the `public/` directory with each view in its own `index.html`, which any web server should be able to serve with minimal configuration.
 
 ## Issues & Bugs
 
