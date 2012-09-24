@@ -37,4 +37,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'mime-types'
   s.add_dependency 'aws-sdk'
   s.add_dependency 'cloudfront-invalidator', '~> 0.2'
+  s.add_dependency 'rack-livereload'
+
 end
