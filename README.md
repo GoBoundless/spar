@@ -40,7 +40,7 @@ $ cd myapp
 $ bundle install
 $ powify create www.myapp
 $ powify browse www.myapp
-`
+```
 
   At this point, you'll see the default Spar page... congrats!
 
