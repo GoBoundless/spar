@@ -140,7 +140,7 @@ Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfron
 
     app.example.com. IN CNAME d242ood0j0gl2v.cloudfront.net.
 
-Now, every time you deploy, Spar will automatically issue CloudFront invalidation requests for index.html (and anything else without a hash value). CloudFront invalidations usually take around 8 minutes, but they can take a lot longer when Amazon is having problems.
+Now, every time you deploy, Spar will automatically issue CloudFront invalidation requests for index.html (and anything else without a hash value). CloudFront invalidations usually take around 8 minutes, but they can take quite a bit lot longer when Amazon is having problems.
 
 #### About Logging
 
