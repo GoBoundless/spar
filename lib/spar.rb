@@ -53,7 +53,7 @@ module Spar
       env.append_path(root.join('app', 'stylesheets'))
       env.append_path(root.join('app', 'images'))
       env.append_path(root.join('app', 'fonts'))
-      env.append_path(root.join('app', 'views'))
+      env.append_path(root.join('app', 'pages'))
 
       env.append_path(root.join('lib', 'javascripts'))
       env.append_path(root.join('lib', 'stylesheets'))

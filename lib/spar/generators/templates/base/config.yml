@@ -1,0 +1,4 @@
+default:
+  debug: true
+  digest: false
+  compress: false

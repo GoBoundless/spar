@@ -2,8 +2,7 @@
 <html>
   <head>
     <title>Spar App</title>
-    <link rel="stylesheet", href=stylesheet_path('application') />
-    <script src => javascript_path('application') :src => javascript_path('application') type="text/javascript" charset="utf-8"></script>
+    [{ stylesheet_link_tag(application) }]
   </head>
   <body>
     <h1>
@@ -12,5 +11,6 @@
     <h2>
       Point LiveReload to the directory of this project if you want to use it. No extensions or JS required.
     </h2>
+    [{ javascript_embed_tag(application) }]
   </body>
 </html>
