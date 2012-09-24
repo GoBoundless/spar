@@ -1,4 +1,5 @@
 require 'sprockets'
+require 'compass'
 require 'sprockets-sass'
 require 'coffee_script'
 require 'uglifier'
