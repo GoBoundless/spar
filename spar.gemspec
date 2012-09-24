@@ -6,10 +6,10 @@ Gem::Specification.new do |s|
   s.name        = "spar"
   s.version     = Spar::VERSION
   s.authors     = ["Matt Hodgson"]
-  s.email       = ["matt@boundlesslearning.com"]
+  s.email       = ["matt@boundless.com"]
   s.homepage    = "http://github.com/BoundlessLearning/spar"
   s.summary     = %q{A simple framework for developing single page web apps with support for haml, sass, coffeescript, and pretty much anything else.}
-  s.description = %q{Spar uses Sprockets and Sinatra to provide an asset development environment very similar to the asset pipeline found in Rails. It allows you to use all the awesome features of the asset pipeline without all the heft of Rails.}
+  s.description = %q{Spar uses Sprockets to provide an asset development environment very similar to the asset pipeline found in Rails. It allows you to use all the awesome features of the asset pipeline without all the heft of Rails.}
 
   s.required_ruby_version     = '>= 1.9.2'
 
@@ -42,5 +42,4 @@ Gem::Specification.new do |s|
   s.add_dependency 'cloudfront-invalidator', '~> 0.2'
   s.add_dependency 'rack-livereload'
   s.add_dependency 'yui-compressor'
-
 end

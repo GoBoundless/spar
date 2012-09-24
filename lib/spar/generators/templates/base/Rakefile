@@ -1,8 +1,5 @@
-require 'bundler'
-Bundler.require
+require 'spar'
 
-task :environment do
-  require './config/application'
+task assets:precompile do
+  Spar.build()
 end
-
-require 'spar/tasks'

@@ -12,29 +12,24 @@ module Spar
       File.expand_path('../../..', __FILE__)
     end
 
-    # desc 'build [asset1 asset2..]', 'Build project'
+    desc 'build [asset1 asset2..]', 'Build project'
 
-    # method_option :target, :aliases => '-t', :desc => 'Directory to compile assets to'
+    method_option :target, :aliases => '-t', :desc => 'Directory to compile assets to'
 
-    # def build(*assets)
-    #   target = Pathname(options[:target] || './public/assets')
+    def build(*assets)
+      target = Pathname(options[:target] || './public')
 
-    #   if options[:compile]
-    #     Catapult.environment.js_compressor  = Compressor::JS.new
-    #     Catapult.environment.css_compressor = Compressor::CSS.new
-    #   end
+      say "Building: #{Spar.root}"
 
-    #   say "Building: #{Catapult.root}"
-
-    #   Catapult.environment.each_logical_path(assets) do |logical_path|
-    #     if asset = Catapult.environment.find_asset(logical_path)
-    #       filename = target.join(logical_path)
-    #       FileUtils.mkpath(filename.dirname)
-    #       say "Write asset: #{filename}"
-    #       asset.write_to(filename)
-    #     end
-    #   end
-    # end
+      Spar.sprockets.each_logical_path(assets) do |logical_path|
+        if asset = Spar.sprockets.find_asset(logical_path)
+          filename = target.join(logical_path)
+          FileUtils.mkpath(filename.dirname)
+          say "Write asset: #{filename}"
+          asset.write_to(filename)
+        end
+      end
+    end
 
     desc 'server', 'Serve spar application'
 

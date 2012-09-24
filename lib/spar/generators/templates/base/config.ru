@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'bundler/setup'
 Bundler.require if File.exists?('Gemfile')
 

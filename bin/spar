@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
 require 'rbconfig'
 
 if RUBY_VERSION < '1.9.2'
