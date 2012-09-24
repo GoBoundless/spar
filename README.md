@@ -42,19 +42,26 @@ If using `rbenv`:
 
   Spar apps are organized into the follow folders:
 
-    /app
-      /assets
-        /images         #place images here
-        /javascripts    #your JS files go here
-        /stylesheets    #guess what? CSS here!
-      /views            #your HTML roots go here
-    /config             #environment configs
+    /app                #assets that make your app
+      /images
+      /javascripts
+        application.js.coffee
+      /stylesheets
+        application.css.sass
+      /pages
+        index.haml
+    
+    /config
+      /environments     #configs per deployment
+        development.rb
+        staging.rb
+        production.rb
+
     /lib                #I have no idea
     /public             #I have no idea
-    /script             #I have no idea
     /vendor             #I have no idea
-    Gemfile             #I have no idea
-    README              #I have no idea
+    Gemfile             #optional installed pipeline gems
+    README              #optional project readme
     Rakefile            #I have no idea
     config.ru           #I have no idea
 
