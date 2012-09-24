@@ -1,14 +1,22 @@
 require 'pathname'
 require 'sprockets'
+require 'haml'
 
 module Spar
   autoload :Version, 'spar/version'
   autoload :CLI, 'spar/cli'
-  # autoload :Assets, 'spar/assets'
+  autoload :Rewrite, 'spar/rewrite'
+  autoload :DirectiveProcessor, 'spar/directive_processor'
+  autoload :Helpers, 'spar/helpers'
   # autoload :StaticCompiler, 'spar/static_compiler'
   # autoload :Helpers, 'spar/helpers'
   # autoload :CssCompressor, 'spar/css_compressor'
   # autoload :Deployer, 'spar/deployer'
+
+  DEFAULTS = {
+    'digest' => false,
+    'debug'  => true
+  }
 
   def self.root
     @root ||= begin
@@ -28,8 +36,12 @@ module Spar
     end
   end
 
-  def self.environment
-    @environment ||= begin
+  def self.sprockets
+    @sprockets ||= begin
+      @environment = ENV['SPAR_ENV'] || 'development'
+      
+      load_config
+
       env = Sprockets::Environment.new(root)
 
       env.append_path(root.join('app', 'javascripts'))
@@ -46,9 +58,17 @@ module Spar
 
       env.append_path(root.join('components'))
 
+      for path in (@settings['paths'] || [])
+        env.append_path(root.join(*path.split('/')))
+      end
+
       env.register_engine '.haml',    Tilt::HamlTemplate
       env.register_engine '.md',      Tilt::BlueClothTemplate
       env.register_engine '.textile', Tilt::RedClothTemplate
+
+      env.register_postprocessor('text/css', Spar::DirectiveProcessor)
+      env.register_postprocessor('application/javascript', Spar::DirectiveProcessor)
+      env.register_postprocessor('text/html', Spar::DirectiveProcessor)
 
       env
     end
@@ -56,21 +76,37 @@ module Spar
 
   def self.app
     app = Rack::Builder.new do
+
+      use Spar::Rewrite
       map '/' do
-        run Spar.environment
+        run Spar.sprockets
       end
 
-      # use Catapult::TryStatic,
-      #     :root => Catapult.root.join('public'),
-      #     :urls => %w[/],
-      #     :try  => ['.html', 'index.html', '/index.html']
+      use Rack::Static, :root => Spar.root.join('public'), :urls => %w[/]
 
-      # use Rack::ContentType
+      use Rack::ContentType
 
-      run lambda {|env|
+      run lambda { |env|
         [404, {}, ['Not found']]
       }
     end
   end
+
+  def self.settings
+    @settings
+  end
+
+  protected
+  
+    def self.load_config
+      pathname = Pathname.new(Spar.root).join("config.yml")
+      begin
+        yaml = YAML.load_file(pathname)
+        @settings = DEFAULTS.merge(yaml['default'] || {}).merge(yaml[@environment] || {})
+        @settings['environment'] = @environment
+      rescue => e
+        raise "Could not load the config.yml file: #{e.message}"
+      end
+    end
 
 end

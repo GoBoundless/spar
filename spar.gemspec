@@ -28,7 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency "haml",               '~> 3.1',  '>= 3.1.4'
   s.add_dependency "coffee-script",      '~> 2.2',  '>= 2.2.0'
   s.add_dependency "uglifier",           '~> 1.0',  '>= 1.0.3'
-  s.add_dependency "sprockets",          '~> 2.4.3','>= 2.4.3'
+  s.add_dependency "sprockets",          '~> 2.6',  '>= 2.6.0'
   s.add_dependency "sprockets-sass",     '~> 0.5',  '>= 0.5'
   s.add_dependency "bundler",            '~> 1.0',  '>= 1.0.18'
   s.add_dependency "thor",               '~> 0.15', '>= 0.15.2'
