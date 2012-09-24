@@ -1,3 +1,33 @@
 #!/usr/bin/env ruby
 
-require "spar/cli"
+require 'rubygems'
+require 'rbconfig'
+
+if RUBY_VERSION < '1.9.2'
+  desc = defined?(RUBY_DESCRIPTION) ? RUBY_DESCRIPTION : "ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE})"
+  abort <<-end_message
+
+    Spar requires Ruby 1.9.2+.
+
+    You're running
+      #{desc}
+
+    Please upgrade to continue.
+
+  end_message
+end
+Signal.trap("INT") { puts; exit(1) }
+
+require 'bundler/setup'
+require 'spar'
+Bundler.require if File.exists?('Gemfile')
+
+begin
+  require 'spar/cli'
+  Spar::CLI.start
+rescue Interrupt => e
+  puts "\nStopping..."
+  exit 1
+rescue SystemExit => e
+  exit e.status
+end
