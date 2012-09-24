@@ -53,17 +53,16 @@ module Spar
         env.css_compressor = Compressor::CSS.new
       end
 
-      env.append_path(root.join('app', 'javascripts'))
-      env.append_path(root.join('app', 'stylesheets'))
-      env.append_path(root.join('app', 'images'))
-      env.append_path(root.join('app', 'fonts'))
-      env.append_path(root.join('app', 'pages'))
+      child_folders = ['javascripts', 'stylesheets', 'images', 'pages', 'fonts']
 
-      env.append_path(root.join('lib', 'javascripts'))
-      env.append_path(root.join('lib', 'stylesheets'))
-
-      env.append_path(root.join('vendor', 'javascripts'))
-      env.append_path(root.join('vendor', 'stylesheets'))
+      for child_folder in child_folders
+        env.append_path(root.join('app', child_folder))
+        env.append_path(root.join('vendor', child_folder))
+        Gem.loaded_specs.each do |name, gem|
+          app.asset_env.append_path(File.join(gem.full_gem_path, 'vendor', 'assets', child_folder))
+          app.asset_env.append_path(File.join(gem.full_gem_path, 'app', 'assets', 'assets', child_folder))
+        end
+      end
 
       env.append_path(root.join('components'))
 
