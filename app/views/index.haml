@@ -4,33 +4,54 @@
     %title Spar App
     %link{:rel => "stylesheet", :href =>  stylesheet_path('application')}
     %script{:src => javascript_path('application')}
-  %body
-    .container 
-      #header.hero-unit
-        %h1#site-title SPAR
-        %h2#site-description Single Page Asset Rocketship
-      #content
-        %h3 Why SPAR?
-
-        %p 
-          Single-page web-apps add significant complexity to development: the front-end becomes it's own MVC-like application, requiring mature code organization, build systems, and dev-environment harnesses. SPAR is an opinionated framework that aims to ease single-page web-app development by addressing the major challenges:
-
-        %ul
-          %li Asset organization
-          %li Compilation pipeline
-          %li Build & deployment support
-
-        %p
-          Additionally, SPAR provides templates & example projects for either a bare-bones project, or one with some of favorite tools pre-included.
-          
-        %p
-          Under the hood, SPAR is a Rails-derived project, taking advantage of the powerful asset-pipeline, while stripping out legacy web-app support and introducing tools & patterns specific to single-page apps
-
-        %h3 Get Started
-
-        %pre
-          <code>
-          gem install spar
-          spar YOUR_APP_HERE
-          </code>
+    %script{:src => "http://use.edgefonts.net/kaushan-script.js"}
             
+  %body
+    #header.hero-unit
+      .container
+        %h1#site-title Spar
+        %h2#site-description Single Page Asset Rocketship
+      #foreground
+      #middleground
+      #background
+    #content
+      .container
+        .row
+          .span7
+            %h3 Why Spar?
+
+            %p 
+              Single-page web-apps add significant complexity to development: the front-end becomes it's own MVC-like application, requiring mature code organization, build systems, and dev-environment harnesses. SPAR is an opinionated framework that aims to ease single-page web-app development by addressing the major challenges:
+
+            %ul
+              %li Asset organization
+              %li Compilation pipeline
+              %li Build & deployment support
+
+            %p
+              Additionally, SPAR provides templates & example projects for either a bare-bones project, or one with some of favorite tools pre-included.
+
+            %p
+              Under the hood, SPAR is a Rails-derived project, taking advantage of the powerful asset-pipeline, while stripping out legacy web-app support and introducing tools & patterns specific to single-page apps
+
+          .span4.offset1
+            %h3 Get Started
+
+            %p
+              %pre
+                :plain
+                  <code>gem install spar
+                  spar YOUR_APP_HERE
+                  </code>
+
+            %p Das it!
+
+            %h3 Contribute
+
+            %p Fork & submit pull-requests at will!
+            
+            %ul
+              %li
+                %a{:href => 'https://github.com/BoundlessLearning/spar'} GitHub
+
+                
