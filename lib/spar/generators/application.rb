@@ -2,7 +2,7 @@ require 'thor'
 
 module Spar
   module Generators
-  	class Error < Thor::Error
+    class Error < Thor::Error
     end
 
     class Application < Thor
@@ -17,11 +17,9 @@ module Spar
           run('chmod +x script/*')
           empty_directory_with_gitkeep "public"
           empty_directory "lib"
-          empty_directory_with_gitkeep "lib/tasks"
-          empty_directory_with_gitkeep "lib/assets"
-          empty_directory_with_gitkeep "app/assets/images"
-          empty_directory_with_gitkeep "vendor/assets/javascripts"
-          empty_directory_with_gitkeep "vendor/assets/stylesheets"
+          empty_directory_with_gitkeep "app/images"
+          empty_directory_with_gitkeep "vendor/javascripts"
+          empty_directory_with_gitkeep "vendor/stylesheets"
         end
         puts "A new Spar app has been created in #{name} - Have Fun!"
       end
