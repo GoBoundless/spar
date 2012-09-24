@@ -8,7 +8,7 @@ module Spar
 
     DEFAULT_DIRS               = ['stylesheets', 'javascripts', 'images', 'fonts']
     DEFAULT_PRECOMPILE         = [ /\w+\.(?!js|css).+/, /application.(css|js)$/ ]
-    DEFAULT_PREFIX             = 'assets'
+    DEFAULT_PREFIX             = 'assets' #BUGBUG, this is probably wrong
     DEFAULT_DIGEST_FREE_ASSETS = []
 
     def self.registered(app)
