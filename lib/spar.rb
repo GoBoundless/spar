@@ -8,14 +8,14 @@ module Spar
   autoload :Rewrite, 'spar/rewrite'
   autoload :DirectiveProcessor, 'spar/directive_processor'
   autoload :Helpers, 'spar/helpers'
+  autoload :Compressor, 'spar/compressor'
   # autoload :StaticCompiler, 'spar/static_compiler'
-  # autoload :Helpers, 'spar/helpers'
-  # autoload :CssCompressor, 'spar/css_compressor'
   # autoload :Deployer, 'spar/deployer'
 
   DEFAULTS = {
-    'digest' => false,
-    'debug'  => true
+    'digest'   => false,
+    'debug'    => true,
+    'compress' => false
   }
 
   def self.root
@@ -43,6 +43,11 @@ module Spar
       load_config
 
       env = Sprockets::Environment.new(root)
+
+      if @settings['compress']
+        env.js_compressor  = Compressor::JS.new
+        env.css_compressor = Compressor::CSS.new
+      end
 
       env.append_path(root.join('app', 'javascripts'))
       env.append_path(root.join('app', 'stylesheets'))
