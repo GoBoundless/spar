@@ -20,21 +20,27 @@ Under the hood, Spar is a Rails-derived project, taking advantage of the powerfu
 
 ## Installing Spar
 
-    gem install spar
-    
+```bash
+$ gem install spar
+````
+
 If using `rbenv`:
 
-    rbenv rehash
+```bash
+rbenv rehash
+```
 
 ## Getting Started
 
   Issue the following command to create a new Spar project:
 
-    spar myapp
-    cd myapp
-    bundle install
-    powify create www.myapp
-    powify browse www.myapp
+```bash
+$ spar myapp
+$ cd myapp
+$ bundle install
+$ powify create www.myapp
+$ powify browse www.myapp
+`
 
   At this point, you'll see the default Spar page... congrats!
 
@@ -100,9 +106,10 @@ as well as:
 
 Spar has full support for S3 and CloudFront out of the box. First, add your AWS credentials to `config/production.rb`. You can look these up on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page.
 
+```ruby
     set :acccess_key_id,          "my_access_key"
     set :secret_access_key,       "my+super+secret+access+key"
-
+```
 
 Next, you'll need a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
 
@@ -110,7 +117,9 @@ Next, you'll need a bucket to host your app. We suggest using the same as your f
 
 Specify your bucket in `config/production.rb`:
 
+```ruby
     set :s3_bucket,               "app.example.com"
+```
 
 Next, you'll need to turn on [S3 Website Hosting](http://aws.typepad.com/aws/2011/02/host-your-static-website-on-amazon-s3.html) in the S3 console.
 
@@ -120,13 +129,13 @@ You'll need to create a new `CNAME` record. How this works is up to your hosting
 
     app.example.com. IN CNAME app.example.com.s3-website-us-east-1.amazonaws.com.
 
-
 #### CloudFront
 
 From here, it's easy to turn your fast site into a *really* fast site. From the [AWS  CloudFront Console](https://console.aws.amazon.com/cloudfront/home), create a new distribution *with the website form of your bucket name as the origin* and save the ID in `config/production.rb`.
 
+```ruby
     set :cloudfront_distribution, "K9SYZF479EXMUAWH"
-
+```
 Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfront.net`). You will need to replace the CNAME you created earlier.
 
     app.example.com. IN CNAME d242ood0j0gl2v.cloudfront.net.
@@ -139,11 +148,9 @@ You'll probably want to be able to log requests to your site. Even though your a
 
 Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s3/home). Give it a name like `logs.example.com` and update either your app's CloudFront distribution or your app's S3 bucket to write its log files to this log bucket.
 
-
 ### Apache, NginX, Lighttpd, etc
 
 `rake assets:precompile` populates the `public/` directory with using `index.html` files, which any web server should be able to serve with minimal configuration.
-
 
 ## Issues & Bugs
 
