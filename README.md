@@ -143,25 +143,25 @@ Stylesheet files are composed similarly, however directives should be placed in 
 /*= require buttons.css */
 ```
 
-## The Deploy Directive
+## Deploy Directive
 
-Spar needs to be told which files are fundemental to deployment.
+Spar needs to be told which JS and CSS files are fundemental to deployment, as opposed to components files that are used only for inclusion into larger files via the `require` and `require_tree` directives.
 
-A typical web-app can have dozens of Javascript and CSS files. With Spar, most apps will compile into a single application.js and application.css file. Those files will include all other dependencies with the `require` and `require_tree` directives.
+(Most apps will compile into a single application.js and application.css file, each using the `deploy` directive.)
 
-To instruct Spar to deploy a JS or CSS file, you must add a deploy directive at the top:
+To instruct Spar to deploy a JS or CSS file, add a deploy directive at the top of the file:
 
 ```coffeescript
 #= deploy
 ```
 
-Or in CSS:
+Or, in CSS:
 
 ```css
 /*= deploy */
 ```
 
-This directive tells the deploy task to upload these files during a deploy. You only need to do this for Javascript and CSS based files, as Spar deploys all images, pages, and static files automatically.
+This directive instructs the deploy task to output & upload these files. You only need to do this for Javascript and CSS based files, as Spar deploys all images, pages, and static files automatically.
 
 # Example Spar Applications
 
