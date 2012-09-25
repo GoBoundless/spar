@@ -185,37 +185,26 @@ You can pass any environment name to the deploy command, typically `staging` or 
 
 ## Local Deployment
 
-To deploy to a local directory, setup your config.yml file like so:
+To deploy to a local directory, setup your `config.yml` file environments like so:
 
     default:    
       debug: true
 
     staging:
-      debug: false
       deploy_strategy: local
       deploy_path: compiled/staging
 
     production:
-      debug: false
-      compress: true
       deploy_strategy: local
       deploy_path: compiled/production
 
- The deploy_path may be either a relative path in your application or a global path on your computer.
+ The `deploy_path` may be either a relative path in your application or a global path on your computer.
 
 ## S3 Deployment
 
-To deploy to an S3 bucket, setup your config.yml file like so:
-
-    default:    
-      debug: true
-
-    staging:
-      debug: false
+To deploy to an S3 bucket, setup your environments like so:
 
     production:
-      debug: false
-      compress: true
       deploy_strategy: s3
       aws_key: "my_access_key"
       aws_secret: "my+super+secret+access+key"
@@ -256,17 +245,9 @@ Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s
 
 ## CloudFront Deployment
 
-Cloudfront deployment is very similar to S3 deployment, but you need to add a cloudfront_distribution to your config file:
-
-    default:    
-      debug: true
-
-    staging:
-      debug: false
+Cloudfront deployment is very similar to S3 deployment, but you need to add a `cloudfront_distribution` property to your config file:
 
     production:
-      debug: false
-      compress: true
       deploy_strategy: cloudfront
       aws_key: "my_access_key"
       aws_secret: "my+super+secret+access+key"
