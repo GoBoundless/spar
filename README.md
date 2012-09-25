@@ -92,6 +92,7 @@ First, configuration file substitution takes place according to your `config.yml
 ```
 first transforms to become:
 
+```haml
 %html
   %head
     %title My App!
