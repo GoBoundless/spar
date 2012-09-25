@@ -22,8 +22,8 @@ $ gem install spar
 
 If using `rbenv`:
 
-```
-rbenv rehash
+```bash
+$ rbenv rehash
 ```
 
 # Getting Started
