@@ -60,32 +60,27 @@ $ spar server
 
   Default project settings are defined as so:
 
-  ```yml
-  default:
-    debug: true
-    compress: false
-    my_api: http://localhost:8080
-  ```
+    default:
+      debug: true
+      compress: false
+      my_api: http://localhost:8080
 
   These settings may be overriden on a per-environment basis for `development`, `staging`, and `production` like so:
 
-  ```yml
-  default:
-    debug: true
-    compress: false
-    my_api: http://localhost:8080
+    default:
+      debug: true
+      my_api: http://localhost:8080
 
-  production:
-    debug: false
-    compress: true
-    my_api: http://production-api.mysite.com
-  ```
+    production:
+      debug: false
+      compress: true
+      my_api: http://production-api.mysite.com
 
   Spar respects the following known configuration options:
 
-  `debug`: does soemthing
-  `digest`: does something
-  `compress`: does something
+  - `debug`: true/false, 
+  - `digest`: does something
+  - `compress`: does something
 
 # The Pipeline
 
