@@ -7,7 +7,7 @@
   %body
     #main
       #header
-        %img{:src => 'logo.png'}
+        %img{:src => "[{ path_to(logo.png) }]"}
         %h1 Spar
         %h2 Single Page App Rocketship
         #background
@@ -33,16 +33,17 @@
         :plain
           <pre>
             <code>gem install spar
-            spar YOUR_APP
-            spar server YOUR_APP
+            spar new YOUR_APP
+            cd YOUR_APP
+            spar server
             </code>
           </pre>
 
         %h2 Lift-off!
         :plain
           <pre>
-            <code>spar build YOUR_APP
-            spar deploy YOUR_APP
+            <code>
+            spar deploy production
             </code>
           </pre>
 
