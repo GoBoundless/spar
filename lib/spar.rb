@@ -9,8 +9,9 @@ module Spar
   autoload :DirectiveProcessor, 'spar/directive_processor'
   autoload :Helpers, 'spar/helpers'
   autoload :Compressor, 'spar/compressor'
-  autoload :StaticCompiler, 'spar/static_compiler'
-  # autoload :Deployer, 'spar/deployer'
+  autoload :Compiler, 'spar/compiler'
+  autoload :CompiledAsset, 'spar/compiled_asset'
+  autoload :Deployer, 'spar/deployers/deployer'
 
   DEFAULTS = {
     'digest'   => false,
@@ -19,8 +20,8 @@ module Spar
     'js_compressor' => {
       'mangle' => false
     },
-    'css_compressor' => {}
-
+    'css_compressor' => {},
+    'cache_control'  => "public, max-age=#{60 * 60 * 24 * 7}"
   }
 
   def self.root
@@ -41,15 +42,17 @@ module Spar
     end
   end
 
+  def self.environment=(environment)
+    @environment = environment
+  end
+
   def self.sprockets
     @sprockets ||= begin
-      @environment = ENV['SPAR_ENV'] || 'development'
-      
-      load_config
+      @environment ||= ENV['SPAR_ENV'] || 'development'
 
       env = Sprockets::Environment.new(root)
 
-      if @settings['compress']
+      if settings['compress']
         env.js_compressor  = Compressor::JS.new
         env.css_compressor = Compressor::CSS.new
       end
@@ -67,7 +70,7 @@ module Spar
 
       env.append_path(root.join('components'))
 
-      for path in (@settings['paths'] || [])
+      for path in (settings['paths'] || [])
         env.append_path(root.join(*path.split('/')))
       end
 
@@ -103,7 +106,7 @@ module Spar
   end
 
   def self.settings
-    @settings
+    @settings ||= load_config
   end
 
   protected
@@ -112,8 +115,9 @@ module Spar
       pathname = Pathname.new(Spar.root).join("config.yml")
       begin
         yaml = YAML.load_file(pathname)
-        @settings = DEFAULTS.merge(yaml['default'] || {}).merge(yaml[@environment] || {})
-        @settings['environment'] = @environment
+        settings = DEFAULTS.merge(yaml['default'] || {}).merge(yaml[@environment] || {})
+        settings['environment'] = @environment
+        settings
       rescue => e
         raise "Could not load the config.yml file: #{e.message}"
       end

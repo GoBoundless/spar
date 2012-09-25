@@ -12,14 +12,6 @@ module Spar
       File.expand_path('../../..', __FILE__)
     end
 
-    desc 'build', 'Build project'
-
-    def build
-      say "Building: #{Spar.root}"
-
-      Spar::StaticCompiler.compile
-    end
-
     desc 'server', 'Serve spar application'
 
     method_option :port, :aliases => '-p', :desc => 'Port'
@@ -33,12 +25,20 @@ module Spar
 
     desc 'deploy', 'Deploy the project.'
 
-    def deploy
+    def deploy(environment='production')
       say "Deploying: #{Spar.root}"
 
-      build
-
+      Spar.environment = environment
       
+      if strategy = Spar.settings['deploy_strategy']
+        require "spar/deployers/#{strategy}_deployer"
+
+        deployer = Kernel.const_get("#{strategy.capitalize()}Deployer").new
+
+        deployer.run(Spar::Compiler.assets)
+      else
+        raise "You are trying to deploy to the #{environment} environment, but you have not declared a :deploy_strategy in congig.yml for this environment. The available options are: 'local', 's3', and 'cloudfront'."
+      end
     end
 
     desc 'version', 'Show the current version of Spar'
