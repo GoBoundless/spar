@@ -108,9 +108,9 @@ TEMPLATE = <<-HTML # :nodoc:
 /* HEADER */
   #header             {margin: 0 auto 25px auto;}
   #header img         {float: left;}
-  #header #summary    {float: left; margin: 12px 0 0 20px; width:660px;
+  #header #summary    {float: left; margin: 38px 0 0 20px; width:610px;
                        font-family: 'Lucida Grande', 'Lucida Sans Unicode';}
-  h1                  {margin: 0; font-size: 36px; color: #981919;}
+  h1                  {margin: 0; font-size: 36px; color: #BE292B;}
   h2                  {margin: 0; font-size: 22px; color: #333333;}
   #header ul          {margin: 0; font-size: 12px; color: #666666;}
   #header ul li strong{color: #444444;}
@@ -129,7 +129,7 @@ TEMPLATE = <<-HTML # :nodoc:
                       font-size: 14px; text-decoration: none; cursor: pointer;}
   a#expando:hover     {text-decoration: underline;}
   h3                  {float: left; width: 100px; margin-bottom: 10px;
-                       color: #981919; font-size: 14px; font-weight: bold;}
+                       color: #BE292B; font-size: 14px; font-weight: bold;}
   #nav a              {color: #666666; text-decoration: none; padding: 0 5px;}
   #backtrace li.frame-info {background: #f7f7f7; padding-left: 10px;
                            font-size: 12px; color: #333333;}
