@@ -14,7 +14,8 @@ module Spar
   autoload :CompiledAsset, 'spar/compiled_asset'
   autoload :Deployer, 'spar/deployers/deployer'
   autoload :Assets, 'spar/assets'
-  autoload :PublicAssets, 'spar/public_assets'
+  autoload :Static, 'spar/static'
+  autoload :NotFound, 'spar/not_found'
 
   DEFAULTS = {
     'digest'   => false,
@@ -53,8 +54,12 @@ module Spar
     @assets ||= Spar::Assets.new
   end
 
-  def self.public_assets
-    @public_assets ||= Spar::PublicAssets.new
+  def self.static
+    @static ||= Spar::Static.new
+  end
+
+  def self.not_found
+    @not_found ||= Spar::NotFound.new
   end
 
   def self.sprockets
@@ -105,7 +110,7 @@ module Spar
       use Spar::Rewrite
       use Spar::Exceptions
 
-      run Rack::Cascade.new([Spar.sprockets, Spar.public_assets])
+      run Rack::Cascade.new([Spar.static, Spar.sprockets, Spar.not_found])
 
       use Rack::ContentType
 

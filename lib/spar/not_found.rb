@@ -1,14 +1,8 @@
 require 'rack/showexceptions'
-require 'rack/mime'
 
 module Spar
-  # Sinatra::ShowExceptions catches all exceptions raised from the app it
-  # wraps. It shows a useful backtrace with the sourcefile and clickable
-  # context, the whole Rack environment and the request data.
-  #
-  # Be careful when you use this on public-facing sites as it could reveal
-  # information helpful to attackers.
-  class PublicAssets < Rack::ShowExceptions
+
+  class NotFound < Rack::ShowExceptions
 
     def initialize
       @template = ERB.new(TEMPLATE)
@@ -17,22 +11,12 @@ module Spar
     def call(env)
       path = env["PATH_INFO"]
 
-      public_path = "#{Spar.root.join('public')}/#{path}"
-      if File.exists?(public_path)
-        [200, { "Content-Type" => Rack::Mime.mime_type(File.extname(public_path), 'text/plain')}, File.new(public_path)]
-      else
-        spar_file = "#{File.dirname(__FILE__)}/assets/#{path.gsub('__spar__/','')}"
-        if File.exists?(spar_file)
-          [200, { "Content-Type" => Rack::Mime.mime_type(File.extname(spar_file), 'text/plain')}, File.new(spar_file)]
-        else
-          body = [@template.result(binding)]
+      body = [@template.result(binding)]
 
-          [404,
-           {"Content-Type" => "text/html",
-            "Content-Length" => Rack::Utils.bytesize(body.join).to_s},
-           body]
-        end
-      end
+      [404,
+       {"Content-Type" => "text/html",
+        "Content-Length" => Rack::Utils.bytesize(body.join).to_s},
+       body]
     end
 
 TEMPLATE = <<-HTML # :nodoc:

@@ -1,12 +1,7 @@
 require 'rack/showexceptions'
 
 module Spar
-  # Sinatra::ShowExceptions catches all exceptions raised from the app it
-  # wraps. It shows a useful backtrace with the sourcefile and clickable
-  # context, the whole Rack environment and the request data.
-  #
-  # Be careful when you use this on public-facing sites as it could reveal
-  # information helpful to attackers.
+  
   class Exceptions < Rack::ShowExceptions
     @@eats_errors = Object.new
     def @@eats_errors.flush(*) end
