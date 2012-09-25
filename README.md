@@ -56,7 +56,7 @@ $ spar server
     
 # App Configuration
 
-  `config.yml` defines your projects configuration for different environments.
+  `config.yml` defines your projects configuration for different environments. You may define any properties you like, which are available to your files in the app directory. 
 
   Default project settings are defined as so:
 
@@ -66,6 +66,26 @@ $ spar server
     compress: false
     my_api: http://localhost:8080
   ```
+
+  These settings may be overriden on a per-environment basis for `development`, `staging`, and `production` like so:
+
+  ```yml
+  default:
+    debug: true
+    compress: false
+    my_api: http://localhost:8080
+
+  production:
+    debug: false
+    compress: true
+    my_api: http://production-api.mysite.com
+  ```
+
+  Spar respects the following known configuration options:
+
+  `debug`: does soemthing
+  `digest`: does something
+  `compress`: does something
 
 # The Pipeline
 
