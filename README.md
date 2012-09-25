@@ -136,9 +136,10 @@ Spar has full support for S3 and CloudFront out of the box. First, add your AWS 
     set :secret_access_key,       "my+super+secret+access+key"
 ```
 
-Next, you'll need a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
+Next, you'll need visit the [AWS  S3 Console](https://console.aws.amazon.com/s3/home) and create a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
 
 ![click here](http://spar-screenshots.s3.amazonaws.com/s3_click_here.png)
+
 ![create bucket](http://spar-screenshots.s3.amazonaws.com/s3_create_bucket.png)
 
 Specify your bucket in `config/production.rb`:
@@ -150,11 +151,21 @@ Specify your bucket in `config/production.rb`:
 Next, you'll need to turn on [S3 Website Hosting](http://aws.typepad.com/aws/2011/02/host-your-static-website-on-amazon-s3.html) in the S3 console.
 
 ![bucket properties](http://spar-screenshots.s3.amazonaws.com/s3_bucket_properties.png)
+
 ![enable website](http://spar-screenshots.s3.amazonaws.com/s3_enable_website.png)
 
 You'll need to create a new `CNAME` record. How this works is up to your hosting provider, but it should look something like this.
 
     app.example.com. IN CNAME app.example.com.s3-website-us-east-1.amazonaws.com.
+
+### About Logging
+
+You'll probably want to be able to log requests to your site. Even though your app uses cutting edge webscale tools like Airbrake, Loggly, Google Analytics, MixPanel, et al, eventually you'll want to know how many people hit you with IE6 or NoScript, and you gave them the middle finger.
+
+Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s3/home). Give it a name like `logs.example.com` and update either your app's CloudFront distribution or your app's S3 bucket to write its log files to this log bucket.
+
+![enable logging](http://spar-screenshots.s3.amazonaws.com/s3_enable_logging.png)
+
 
 ### CloudFront
 
@@ -168,12 +179,6 @@ Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfron
     app.example.com. IN CNAME d242ood0j0gl2v.cloudfront.net.
 
 Now, every time you deploy, Spar will automatically issue CloudFront invalidation requests for index.html (and anything else without a hash value). CloudFront invalidations usually take around 8 minutes, but they can take quite a bit lot longer when Amazon is having problems.
-
-### About Logging
-
-You'll probably want to be able to log requests to your site. Even though your app uses cutting edge webscale tools like Airbrake, Loggly, Google Analytics, MixPanel, et al, eventually you'll want to know how many people hit you with IE6 or NoScript, and you gave them the middle finger.
-
-Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s3/home). Give it a name like `logs.example.com` and update either your app's CloudFront distribution or your app's S3 bucket to write its log files to this log bucket.
 
 ## Apache, NginX, Lighttpd, etc
 
