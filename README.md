@@ -106,15 +106,16 @@ After Spar performs configuration replacement, it then process files according t
 
 Inlcuded with Spar are transformations from:
 
+- `file.html.haml` => `file.html`
 - `file.js.coffee` => `file.js`
 - `file.css.sass` => `file.css`
 - `file.css.less` => `file.less`
 
-## Javascript & CSS Dependency Management
+## File Dependency Management
 
-Multiple Javascript files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
+Multiple Javascript (or CSS) files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
 
-If you want to serve one file, `application.js`, that includes the content of multiple JS files, you may define an `application.js.coffee` like so:
+If you want to serve one file, say `application.js`, that includes the content of multiple JS files, you may define an `application.js.coffee` like so:
 
 ```coffeescript
 # This file will be compiled into application.js, which 
