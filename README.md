@@ -130,7 +130,7 @@ If you want to serve one file, `application.js`, that includes the content of mu
 ```
 CSS files are composed similarly.
 
-# Example & Bootstrap Apps
+# Example Spar Application
 
 For your reference, and to build on top of, we've created two example applications on top of Spar.
 
