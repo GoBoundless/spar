@@ -56,20 +56,17 @@ $ spar server
     
 # App Configuration
 
-  `config.yml` defines your projects configuration for different environments. You may define any properties you like, which are available to your files in the app directory. 
-
-  Default project settings are defined as so:
-
-    default:
-      debug: true
-      compress: false
-      my_api: http://localhost:8080
+  `config.yml` defines your project's configuration for different environments. You may define any properties you like, which are available to you in your app directory files. 
 
   These settings may be overriden on a per-environment basis for `development`, `staging`, and `production` like so:
 
-    default:
+    default:    
       debug: true
+      my_app_name: My App!
       my_api: http://localhost:8080
+
+    staging:
+      debug: false
 
     production:
       debug: false
@@ -78,13 +75,29 @@ $ spar server
 
   Spar respects the following known configuration options:
 
-  - `debug`: true/false, 
-  - `digest`: does something
-  - `compress`: does something
+  - `debug`: true/false, includes JS files individually for easier debugging
+  - `digest`: true/false, adds MD5 hashes to end of filenames
+  - `compress`: true/false, JS and CSS compression (uglify, and yahoo UI CSS compressor)
 
 # The Pipeline
 
-All Spar asset files are processed according to their extensions, i.e., myfile.js.coffee.spar will first have symbols replaced according to the current Spar environment, and then passed through a Coffeescript compiler, ultimately outputting myfile.js.
+All asset files in the `app` directory are transformed through the Spar pipeline.
+
+First, configuration file substitution takes place according to your `config.yml` file. For instance, if your `index.html.haml` looks like this:
+
+```haml
+%html
+  %head
+    %title [{ my_app_name }]
+```
+first transforms to become:
+
+%html
+  %head
+    %title My App!
+```
+
+ according to their extensions, i.e., myfile.js.coffee.spar will first have symbols replaced according to the current Spar environment, and then passed through a Coffeescript compiler, ultimately outputting myfile.js.
 
 Multiple assets can be combined into one greater asset using some magic.
 
