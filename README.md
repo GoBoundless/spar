@@ -8,7 +8,7 @@ Spar, the *Single Page Application Rocketship*, is an opinionated framework that
 
 Additionally, Spar provides templates & example projects for either a bare-bones project, or one with some of our favorite tools pre-included.
 
-Under the hood, Spar is a Rails-derived project, taking advantage of the powerful asset-pipeline, while stripping out legacy web-app support and introducing tools & patterns specific to single-page apps.
+Under the hood, Spar is a Sprockets-based, Rails-derived project. Spar uses Sprockets to provide a powerful asset-pipeline, while stripping out legacy web-app support and introducing tools & patterns specific to single-page apps.
 
 # Requirements
 
@@ -280,14 +280,6 @@ Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfron
     app.example.com. IN CNAME d242ood0j0gl2v.cloudfront.net.
 
 Now, every time you deploy, Spar will automatically issue CloudFront invalidation requests for index.html (and anything else without a hash value). CloudFront invalidations usually take around 8 minutes, but they can take quite a bit lot longer when Amazon is having problems.
-
-## GitHub Pages
-
-    Coming Soon
-
-## Heroku
-
-    Coming Soon
 
 # Issues & Bugs
 

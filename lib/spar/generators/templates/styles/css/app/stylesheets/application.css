@@ -4,8 +4,7 @@
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
  *
- * Any CSS and SASS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of gems, if any, can be referenced here using a relative path.
+ * Any CSS and SASS file within this directory or vendor/stylesheets can be referenced here using a relative path.
  * 
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
@@ -15,5 +14,5 @@
  */
 
 body {
-  background: #f0f0f0;
+  background: white;
 }

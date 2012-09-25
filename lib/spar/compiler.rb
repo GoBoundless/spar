@@ -48,8 +48,8 @@ module Spar
         if header = file[Sprockets::DirectiveProcessor::HEADER_PATTERN, 0]
           if directive = header.lines.peek[Sprockets::DirectiveProcessor::DIRECTIVE_PATTERN, 1]
             name, *args = Shellwords.shellwords(directive)
-            if name == 'compile'
-              return compile_directive_info(*args)
+            if name == 'deploy'
+              return deploy_directive_info(*args)
             end
           end
         end
@@ -57,7 +57,7 @@ module Spar
       nil
     end
 
-    def self.compile_directive_info(*args)
+    def self.deploy_directive_info(*args)
       options = {}
       args.each do |arg| 
         options[arg.split(':')[0]] = arg.split(':')[1]
