@@ -144,7 +144,7 @@ Stylesheet files are composed similarly, however directives should be placed in 
 ```
 
 ## Deploy Directive
-Most Spar apps will compile into a single application.js and application.css file, each using the `deploy` directive to ensure the aggregate asset files are deployed.
+Most Spar apps will compile into a single `application.js` and `application.css` file, each using the `deploy` directive to ensure the aggregate asset files are deployed.
 
 If you wish to deploy additional root-level asset files, you may instruct Spar to do soby adding a deploy directive at the top of the file:
 
