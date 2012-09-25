@@ -12,23 +12,12 @@ module Spar
       File.expand_path('../../..', __FILE__)
     end
 
-    desc 'build [asset1 asset2..]', 'Build project'
+    desc 'build', 'Build project'
 
-    method_option :target, :aliases => '-t', :desc => 'Directory to compile assets to'
-
-    def build(*assets)
-      target = Pathname(options[:target] || './public')
-
+    def build
       say "Building: #{Spar.root}"
 
-      Spar.sprockets.each_logical_path(assets) do |logical_path|
-        if asset = Spar.sprockets.find_asset(logical_path)
-          filename = target.join(logical_path)
-          FileUtils.mkpath(filename.dirname)
-          say "Write asset: #{filename}"
-          asset.write_to(filename)
-        end
-      end
+      Spar::StaticCompiler.compile
     end
 
     desc 'server', 'Serve spar application'
@@ -42,20 +31,15 @@ module Spar
       )
     end
 
-    # desc 'watch [asset1 asset2..]', 'Build project whenever it changes'
+    desc 'deploy', 'Deploy the project.'
 
-    # method_option :target, :aliases => '-t', :desc => 'Directory to compile assets to'
+    def deploy
+      say "Deploying: #{Spar.root}"
 
-    # def watch(*assets)
-    #   say "Watching: #{Catapult.root}"
+      build
 
-    #   build(*assets)
-
-    #   paths = Catapult.environment.paths
-    #   paths = paths.select {|p| File.exists?(p) }
-
-    #   Listen.to(*paths) { build }
-    # end
+      
+    end
 
     desc 'version', 'Show the current version of Spar'
 

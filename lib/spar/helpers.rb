@@ -15,10 +15,8 @@ module Spar
 
     def self.javascript_include_tag(*sources)
       sources.collect do |source|
-        puts "javscript include #{source}"
         if Spar.settings['debug'] && asset = paths.asset_for(source, 'js')
           asset.to_a.map { |dep|
-            puts "javscript include inner #{source}"
             javascript_tag(path_to(dep, :ext => 'js', :body => true))
           }
         else

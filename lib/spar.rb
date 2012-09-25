@@ -9,7 +9,7 @@ module Spar
   autoload :DirectiveProcessor, 'spar/directive_processor'
   autoload :Helpers, 'spar/helpers'
   autoload :Compressor, 'spar/compressor'
-  # autoload :StaticCompiler, 'spar/static_compiler'
+  autoload :StaticCompiler, 'spar/static_compiler'
   # autoload :Deployer, 'spar/deployer'
 
   DEFAULTS = {
@@ -20,6 +20,7 @@ module Spar
       'mangle' => false
     },
     'css_compressor' => {}
+
   }
 
   def self.root
