@@ -39,20 +39,20 @@ $ spar server
 
 # Organization
 
-  Spar apps are organized into the follow folders:
+  Spar apps are organized into the following folders and files:
 
-    /app                #compiled assets that make your app
+    /app                      #Compiled assets that make your app
       /images
       /javascripts
-        application.js.coffee
+        application.js.coffee #Your main JS output
       /stylesheets
-        application.css.sass
+        application.css.sass  #Your main CSS output
       /pages
-        index.html.haml
+        index.html.haml       #Your single, root HTML page
     
-    config.yml          #ENV settings for dev, staging, prod
-    Rakefile            #Necessary for Heroku deploys
-    README              #your project README
+    config.yml                #ENV settings for dev, staging, prod
+    Rakefile                  #Necessary for Heroku deploys
+    README                    #your project's README
     
 # Configuration
 
@@ -100,22 +100,25 @@ first transforms to become:
     %title My App!
 ```
 
+## Compilation
+
 After Spar performs configuration replacement, it then process files according to their extensions.
 
 Inlcuded with Spar are transformations from:
 
+- `file.html.haml` => `file.html`
 - `file.js.coffee` => `file.js`
 - `file.css.sass` => `file.css`
 - `file.css.less` => `file.less`
 
-## Javascript & CSS Dependencies
+## Dependency Management
 
-Multiple Javascript files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
+Multiple Javascript (or CSS) files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
 
-If you want to serve one file, `app.js`, that includes the content of multiple JS files, you may define an `app.js.coffee` like so:
+If you want to serve one file, say `application.js`, that includes the content of multiple JS files, you may define an `application.js.coffee` like so:
 
 ```coffeescript
-# This file will be compiled into app.js, which 
+# This file will be compiled into application.js, which 
 # will include all the files below required below
 
 # The require directive can include individual file assets
@@ -130,28 +133,15 @@ If you want to serve one file, `app.js`, that includes the content of multiple J
 ```
 CSS files are composed similarly.
 
-# Example & Bootstrap Apps
+# Example Spar Applications
 
-Included with Spar are two example applications. 
+For your reference, and to build on top of, we've created two example applications using Spar.
 
-The first is the quintessential TODO application as popularized by http://addyosmani.github.com/todomvc/
+The first is the quintessential TODO application as popularized by [addyosmani](http://addyosmani.github.com/todomvc/). The second, is a bootstrap application containing some of our favorite tools to kick-start the pretty (jQuery, Backbone, and Twitter Bootstrap)
 
-The second, is a bootstrap application containing our favorite tools for making web-sites:
-
-  - Coffescript
-  - jQuery
-  - Backbone
-
-as well as:
-
-  - SASS
-  - Compass
-  - Twitter Bootstrap
+Both can be found at our [spar-examples](https://github.com/BoundlessLearning/spar-examples) repo.
 
 # Deploying Your Spar App
-
-## GitHub Pages
-## Heroku
 
 ## Amazon Web Services
 
@@ -210,9 +200,17 @@ Now, every time you deploy, Spar will automatically issue CloudFront invalidatio
 
 `rake assets:precompile` populates the `public/` directory with each view in its own `index.html`, which any web server should be able to serve with minimal configuration.
 
+## GitHub Pages
+
+    Coming Soon
+
+## Heroku
+
+    Coming Soon
+
 # Issues & Bugs
 
-Please use our Github [issue tracker](https://github.com/BoundlessLearning/spar/issues) for Spar
+Please use our Github [issue tracker](https://github.com/BoundlessLearning/spar/issues) for Spar.
 
 # License
 
