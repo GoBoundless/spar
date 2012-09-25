@@ -83,6 +83,8 @@ $ spar server
 
 All asset files in the `app` directory are transformed through the Spar pipeline.
 
+## Configuration Variable Replacement
+
 First, configuration file substitution takes place according to your `config.yml` file. For instance, if your `index.html.haml` looks like this:
 
 ```haml
@@ -106,7 +108,7 @@ Inlcuded with Spar are transformations from:
 - `file.css.sass` => `file.css`
 - `file.css.less` => `file.less`
 
-# Managing Javascript & CSS Dependencies
+## Javascript & CSS Dependencies
 
 Multiple Javascript files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
 
