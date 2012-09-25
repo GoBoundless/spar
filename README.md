@@ -106,14 +106,15 @@ Inlcuded with Spar are transformations from:
 - `file.css.sass` => `file.css`
 - `file.css.less` => `file.less`
 
-# Managing Javascript Dependencies
+# Managing Javascript & CSS Dependencies
 
 Multiple Javascript files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
 
-If you want to serve one file, `app.js.coffee`, that includes the content of multiple JS files, you may define it like so:
+If you want to serve one file, `app.js`, that includes the content of multiple JS files, you may define an `app.js.coffee` like so:
 
 ```coffeescript
-# This file will be compiled into app.js, which will include all the files below required below
+# This file will be compiled into app.js, which 
+# will include all the files below required below
 
 # The require directive can include individual file assets
 # For instance, to include the compiled output of utils.js.coffee
@@ -125,10 +126,7 @@ If you want to serve one file, `app.js.coffee`, that includes the content of mul
 #= require_tree ./models
 #= require_tree ./views
 ```
-
-Multiple assets can be combined into one greater asset using some magic.
-
-Likewise, myfile.css.sass goes through a similar transformation, and multiple CSS assets can be compiled into one greater asset.
+CSS files are composed similarly.
 
 # Example & Bootstrap Apps
 
