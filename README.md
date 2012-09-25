@@ -201,11 +201,11 @@ Now, every time you deploy, Spar will automatically issue CloudFront invalidatio
 
 ## GitHub Pages
 
-    TODO
+    Coming Soon
 
 ## Heroku
 
-    TODO
+    Coming Soon
 
 # Issues & Bugs
 
