@@ -39,20 +39,20 @@ $ spar server
 
 # Organization
 
-  Spar apps are organized into the follow folders:
+  Spar apps are organized into the following folders and files:
 
-    /app                #compiled assets that make your app
+    /app                      #Compiled assets that make your app
       /images
       /javascripts
-        application.js.coffee
+        application.js.coffee #Your main JS output
       /stylesheets
-        application.css.sass
+        application.css.sass  #Your main CSS output
       /pages
-        index.html.haml
+        index.html.haml       #Your single, root HTML page
     
-    config.yml          #ENV settings for dev, staging, prod
-    Rakefile            #Necessary for Heroku deploys
-    README              #your project README
+    config.yml                #ENV settings for dev, staging, prod
+    Rakefile                  #Necessary for Heroku deploys
+    README                    #your project's README
     
 # Configuration
 
@@ -112,10 +112,10 @@ Inlcuded with Spar are transformations from:
 
 Multiple Javascript files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
 
-If you want to serve one file, `app.js`, that includes the content of multiple JS files, you may define an `app.js.coffee` like so:
+If you want to serve one file, `application.js`, that includes the content of multiple JS files, you may define an `application.js.coffee` like so:
 
 ```coffeescript
-# This file will be compiled into app.js, which 
+# This file will be compiled into application.js, which 
 # will include all the files below required below
 
 # The require directive can include individual file assets
@@ -132,21 +132,17 @@ CSS files are composed similarly.
 
 # Example & Bootstrap Apps
 
+For your reference, and to build on top of, we've created two example applications on top of Spar.
+
+First is 
+
 Included with Spar are two example applications. 
 
-The first is the quintessential TODO application as popularized by http://addyosmani.github.com/todomvc/
+The first is the quintessential TODO application as popularized by [addyosmani](http://addyosmani.github.com/todomvc/)
 
-The second, is a bootstrap application containing our favorite tools for making web-sites:
+The second, is a bootstrap application containing some of our favorite tools to kick-start the pretty (jQuery, Backbone, and Twitter Bootstrap)
 
-  - Coffescript
-  - jQuery
-  - Backbone
-
-as well as:
-
-  - SASS
-  - Compass
-  - Twitter Bootstrap
+Both can be found at our [spar-examples repo](https://github.com/BoundlessLearning/spar-examples).
 
 # Deploying Your Spar App
 
