@@ -144,9 +144,9 @@ Stylesheet files are composed similarly, however directives should be placed in 
 ```
 
 ## Deploy Directive
-Most Spar apps will compile into a single `application.js` and `application.css` file, each using the `deploy` directive to ensure the aggregate asset files are deployed.
+Most Spar apps will compile into a single `application.js` and `application.css` file, each including the `deploy` directive to ensure it is deployed.
 
-If you wish to deploy additional root-level asset files, you may instruct Spar to do soby adding a deploy directive at the top of the file:
+If you wish to deploy additional root-level asset files, you may instruct Spar to do so by adding a `deploy` directive at the top of the file like so:
 
 ```coffeescript
 #= deploy
@@ -181,7 +181,7 @@ To deploy your app, run:
 spar deploy poduction
 ```
 
-You can pass any environment name to the deploy command, but usually you'll either pass staging or production.
+You can pass any environment name to the deploy command, typically `staging` or `production`.
 
 ## Local Deployment
 
@@ -201,7 +201,7 @@ To deploy to a local directory, setup your config.yml file like so:
       deploy_strategy: local
       deploy_path: compiled/production
 
-Set the deploy_path to either a relative path in your application or a global path on your computer.
+ The deploy_path may be either a relative path in your application or a global path on your computer.
 
 ## S3 Deployment
 
@@ -221,7 +221,7 @@ To deploy to an S3 bucket, setup your config.yml file like so:
       aws_secret: "my+super+secret+access+key"
       deploy_bucket: "mysite.test.com"
 
-Obviously you'll need to enter your own credentials. You can look your credentials up on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page. 
+You'll need to enter your own credentials. You can find your S3 credentials on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page. 
 
 Next, you'll need visit the [AWS  S3 Console](https://console.aws.amazon.com/s3/home) and create a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
 
