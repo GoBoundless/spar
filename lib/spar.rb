@@ -30,12 +30,12 @@ module Spar
       call_stack = caller.map { |p| p.sub(/:\d+.*/, '') }
       root_path = File.dirname(call_stack.detect { |p| p !~ %r[[\w.-]*/lib/spar|rack[\w.-]*/lib/rack] })
 
-      while root_path && File.directory?(root_path) && !File.exist?("#{root_path}/config.ru")
+      while root_path && File.directory?(root_path) && !File.exist?("#{root_path}/config.yml")
         parent = File.dirname(root_path)
         root_path = parent != root_path && parent
       end
 
-      root = File.exist?("#{root_path}/config.ru") ? root_path : Dir.pwd
+      root = File.exist?("#{root_path}/config.yml") ? root_path : Dir.pwd
       raise "Could not find root path for #{self}" unless root
 
       RbConfig::CONFIG['host_os'] =~ /mswin|mingw/ ? Pathname.new(root).expand_path : Pathname.new(root).realpath   
