@@ -111,7 +111,7 @@ Inlcuded with Spar are transformations from:
 - `file.css.sass` => `file.css`
 - `file.css.less` => `file.less`
 
-## File Dependency Management
+## Dependency Management
 
 Multiple Javascript (or CSS) files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
 
