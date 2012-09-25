@@ -6,7 +6,7 @@ Spar, the *Single Page Application Rocketship*, is an opinionated framework that
   * Compilation pipeline
   * Build & deployment support
 
-Additionally, Spar provides templates & example projects for either a bare-bones project, or one with some of favorite tools pre-included.
+Additionally, Spar provides templates & example projects for either a bare-bones project, or one with some of our favorite tools pre-included.
 
 Under the hood, Spar is a Rails-derived project, taking advantage of the powerful asset-pipeline, while stripping out legacy web-app support and introducing tools & patterns specific to single-page apps.
 
@@ -31,7 +31,7 @@ $ rbenv rehash
   Issue the following command to create a new Spar project:
 
 ```bash
-$ spar myapp
+$ spar new myapp
 $ cd myapp
 $ spar server
 ```
@@ -49,14 +49,20 @@ $ spar server
         application.css.sass  #Your main CSS output
       /pages
         index.html.haml       #Your single, root HTML page
+
+    /public                   #Put files here that you want to be available to your application, but not managed as assets.
+      /downloads              #Any files in this folder will include a 'Content-Disposition: attachment;' header if deployed to S3
+
+    /vendor                   #Put external libraries like jquery or bootstrap here
+      /javascripts
+      /stylesheets
     
     config.yml                #ENV settings for dev, staging, prod
-    Rakefile                  #Necessary for Heroku deploys
     README                    #your project's README
     
 # Configuration
 
-  `config.yml` defines your project's configuration for different environments. You may define any properties you like, which are available to you in your app directory files. 
+  `config.yml` defines your project's configuration for different environments. You may define any properties you like, which are available to you in all your asset files. 
 
   These settings may be overriden on a per-environment basis for `development`, `staging`, and `production` like so:
 
@@ -76,7 +82,7 @@ $ spar server
   Spar respects the following known configuration options:
 
   - `debug`: true/false, includes JS files individually for easier debugging
-  - `digest`: true/false, adds MD5 hashes to end of filenames
+  - `digest`: true/false, adds MD5 hashes to end of filenames for proper cache busting in deploys
   - `compress`: true/false, JS and CSS compression (uglify, and yahoo UI CSS compressor)
 
 # Asset Pipeline
@@ -92,7 +98,7 @@ First, configuration property substitution takes place according to your `config
   %head
     %title [{ my_app_name }]
 ```
-first transforms to become:
+it transforms to become:
 
 ```haml
 %html
@@ -137,20 +143,85 @@ CSS files are composed similarly.
 
 For your reference, and to build on top of, we've created two example applications using Spar.
 
-The first is the quintessential TODO application as popularized by [addyosmani](http://addyosmani.github.com/todomvc/). The second, is a bootstrap application containing some of our favorite tools to kick-start the pretty (jQuery, Backbone, and Twitter Bootstrap)
+The first is the quintessential TODO application as popularized by [addyosmani](http://addyosmani.github.com/todomvc/). The second, is a bootstrap application containing some of our favorite tools to kick-start the pretty (jQuery, Backbone, and Twitter Bootstrap).
 
 Both can be found at our [spar-examples](https://github.com/BoundlessLearning/spar-examples) repo.
 
 # Deploying Your Spar App
 
-## Amazon Web Services
+Spar supports three different deployment methods out of the box:
 
-Spar has full support for S3 and CloudFront out of the box. First, add your AWS credentials to `config/production.rb`. You can look these up on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page.
+* 'local': Deploy your app to a directory local to your computer.
+* 's3': Deploy your app to an AWS S3 bucket.
+* 'cloudfront': Deploy your app to an AWS S3 bucket and invalidate a Cloudfront distribution.
 
-```ruby
-    set :acccess_key_id,          "my_access_key"
-    set :secret_access_key,       "my+super+secret+access+key"
+To deploy your app, run:
+
+```bash
+spar deploy poduction
 ```
+
+You can pass any environment name to the deploy command, but usually you'll either pass staging or production.
+
+## The Deploy Directive
+
+A typical web app can have tens or hundreds of javascript and css files. With spar, most apps with compile through a single application.js and application.css file. Those files will include all other dependencies with the require and require_tree directives mentioned above.
+
+Here's the catch: Spar has no way to know which files to include in deployments unless you tell it. To tell Spar to deploy a js or css file, just add a line like this at the top:
+
+```coffeescript
+#= deploy
+```
+
+Or in CSS:
+
+```css
+/*= deploy */
+```
+
+This directive will tell the deploy task that you want to upload these files along with your pages, images, and static files.
+
+Please note that you only need to do this for javascript and css based files. Spar deploys all images, pages, and static files automatically.
+
+## Local Deployment
+
+To deploy to a local directory, setup your config.yml file like so:
+
+    default:    
+      debug: true
+
+    staging:
+      debug: false
+      deploy_strategy: local
+      deploy_path: compiled/staging
+
+    production:
+      debug: false
+      compress: true
+      deploy_strategy: local
+      deploy_path: compiled/production
+
+Set the deploy_path to either a relative path in your application or a global path on your computer.
+
+## S3 Deployment
+
+To deploy to an S3 bucket, setup your config.yml file like so:
+
+    default:    
+      debug: true
+
+    staging:
+      debug: false
+
+    production:
+      debug: false
+      compress: true
+      deploy_strategy: s3
+      aws_key: "my_access_key"
+      aws_secret: "my+super+secret+access+key"
+      deploy_bucket: "mysite.test.com"
+
+Obviously you'll need to enter your own credentials. You can look your credentials up on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page. 
 
 Next, you'll need visit the [AWS  S3 Console](https://console.aws.amazon.com/s3/home) and create a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
 
@@ -183,22 +254,32 @@ Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s
 ![enable logging](http://spar-screenshots.s3.amazonaws.com/s3_enable_logging.png)
 
 
-### CloudFront
+## CloudFront Deployment
 
-From here, it's easy to turn your fast site into a *really* fast site. From the [AWS  CloudFront Console](https://console.aws.amazon.com/cloudfront/home), create a new distribution *with the website form of your bucket name as the origin* and save the ID in `config/production.rb`.
+Cloudfront deployment is very similar to S3 deployment, but you need to add a cloudfront_distribution to your config file:
 
-```ruby
-    set :cloudfront_distribution, "K9SYZF479EXMUAWH"
-```
+    default:    
+      debug: true
+
+    staging:
+      debug: false
+
+    production:
+      debug: false
+      compress: true
+      deploy_strategy: cloudfront
+      aws_key: "my_access_key"
+      aws_secret: "my+super+secret+access+key"
+      deploy_bucket: "mysite.test.com"
+      cloudfront_distribution: "distribution+id"
+
+Cloudfront will turn your fast site into a *really* fast site. From the [AWS  CloudFront Console](https://console.aws.amazon.com/cloudfront/home), create a new distribution *with the website form of your bucket name as the origin* and save the ID in your config.yml.
+
 Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfront.net`). You will need to replace the CNAME you created earlier.
 
     app.example.com. IN CNAME d242ood0j0gl2v.cloudfront.net.
 
 Now, every time you deploy, Spar will automatically issue CloudFront invalidation requests for index.html (and anything else without a hash value). CloudFront invalidations usually take around 8 minutes, but they can take quite a bit lot longer when Amazon is having problems.
-
-## Apache, NginX, Lighttpd, etc
-
-`rake assets:precompile` populates the `public/` directory with each view in its own `index.html`, which any web server should be able to serve with minimal configuration.
 
 ## GitHub Pages
 
