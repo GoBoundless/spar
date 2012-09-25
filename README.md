@@ -22,8 +22,8 @@ $ gem install spar
 
 If using `rbenv`:
 
-```
-rbenv rehash
+```bash
+$ rbenv rehash
 ```
 
 # Getting Started
@@ -37,7 +37,7 @@ $ spar server
 ```
   Your app will now be available at [http://localhost:8888](http://localhost:8888)
 
-# App Organization
+# Organization
 
   Spar apps are organized into the follow folders:
 
@@ -54,22 +54,19 @@ $ spar server
     Rakefile            #Necessary for Heroku deploys
     README              #your project README
     
-# App Configuration
+# Configuration
 
-  `config.yml` defines your projects configuration for different environments. You may define any properties you like, which are available to your files in the app directory. 
-
-  Default project settings are defined as so:
-
-    default:
-      debug: true
-      compress: false
-      my_api: http://localhost:8080
+  `config.yml` defines your project's configuration for different environments. You may define any properties you like, which are available to you in your app directory files. 
 
   These settings may be overriden on a per-environment basis for `development`, `staging`, and `production` like so:
 
-    default:
+    default:    
       debug: true
+      my_app_name: My App!
       my_api: http://localhost:8080
+
+    staging:
+      debug: false
 
     production:
       debug: false
@@ -78,17 +75,60 @@ $ spar server
 
   Spar respects the following known configuration options:
 
-  - `debug`: true/false, 
-  - `digest`: does something
-  - `compress`: does something
+  - `debug`: true/false, includes JS files individually for easier debugging
+  - `digest`: true/false, adds MD5 hashes to end of filenames
+  - `compress`: true/false, JS and CSS compression (uglify, and yahoo UI CSS compressor)
 
-# The Pipeline
+# Asset Pipeline
 
-All Spar asset files are processed according to their extensions, i.e., myfile.js.coffee.spar will first have symbols replaced according to the current Spar environment, and then passed through a Coffeescript compiler, ultimately outputting myfile.js.
+All asset files in the `app` directory are transformed through the Spar asset pipeline. Transformation first occurs for configuration properties defined in `config.yml`, followed by JS/CSS asset-compilation and composition.
 
-Multiple assets can be combined into one greater asset using some magic.
+## Configuration Property Replacement
 
-Likewise, myfile.css.sass goes through a similar transformation, and multiple CSS assets can be compiled into one greater asset.
+First, configuration property substitution takes place according to your `config.yml` file. For instance, if your `index.html.haml` looks like this:
+
+```haml
+%html
+  %head
+    %title [{ my_app_name }]
+```
+first transforms to become:
+
+```haml
+%html
+  %head
+    %title My App!
+```
+
+After Spar performs configuration replacement, it then process files according to their extensions.
+
+Inlcuded with Spar are transformations from:
+
+- `file.js.coffee` => `file.js`
+- `file.css.sass` => `file.css`
+- `file.css.less` => `file.less`
+
+## Javascript & CSS Dependencies
+
+Multiple Javascript files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
+
+If you want to serve one file, `app.js`, that includes the content of multiple JS files, you may define an `app.js.coffee` like so:
+
+```coffeescript
+# This file will be compiled into app.js, which 
+# will include all the files below required below
+
+# The require directive can include individual file assets
+# For instance, to include the compiled output of utils.js.coffee
+#= require utils
+
+# You can also recursively includes entire directories 
+# using the require_tree directive
+#= require_tree ./controllers
+#= require_tree ./models
+#= require_tree ./views
+```
+CSS files are composed similarly.
 
 # Example & Bootstrap Apps
 
@@ -122,9 +162,11 @@ Spar has full support for S3 and CloudFront out of the box. First, add your AWS 
     set :secret_access_key,       "my+super+secret+access+key"
 ```
 
-Next, you'll need a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
+Next, you'll need visit the [AWS  S3 Console](https://console.aws.amazon.com/s3/home) and create a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
 
-[screenshots of bucket creation process]
+![click here](http://spar-screenshots.s3.amazonaws.com/s3_click_here.png)
+
+![create bucket](http://spar-screenshots.s3.amazonaws.com/s3_create_bucket.png)
 
 Specify your bucket in `config/production.rb`:
 
@@ -134,11 +176,22 @@ Specify your bucket in `config/production.rb`:
 
 Next, you'll need to turn on [S3 Website Hosting](http://aws.typepad.com/aws/2011/02/host-your-static-website-on-amazon-s3.html) in the S3 console.
 
-[screenshots of enabling website hosting]
+![bucket properties](http://spar-screenshots.s3.amazonaws.com/s3_bucket_properties.png)
+
+![enable website](http://spar-screenshots.s3.amazonaws.com/s3_enable_website.png)
 
 You'll need to create a new `CNAME` record. How this works is up to your hosting provider, but it should look something like this.
 
     app.example.com. IN CNAME app.example.com.s3-website-us-east-1.amazonaws.com.
+
+### About Logging
+
+You'll probably want to be able to log requests to your site. Even though your app uses cutting edge webscale tools like Airbrake, Loggly, Google Analytics, MixPanel, et al, eventually you'll want to know how many people hit you with IE6 or NoScript, and you gave them the middle finger.
+
+Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s3/home). Give it a name like `logs.example.com` and update either your app's CloudFront distribution or your app's S3 bucket to write its log files to this log bucket.
+
+![enable logging](http://spar-screenshots.s3.amazonaws.com/s3_enable_logging.png)
+
 
 ### CloudFront
 
@@ -152,12 +205,6 @@ Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfron
     app.example.com. IN CNAME d242ood0j0gl2v.cloudfront.net.
 
 Now, every time you deploy, Spar will automatically issue CloudFront invalidation requests for index.html (and anything else without a hash value). CloudFront invalidations usually take around 8 minutes, but they can take quite a bit lot longer when Amazon is having problems.
-
-### About Logging
-
-You'll probably want to be able to log requests to your site. Even though your app uses cutting edge webscale tools like Airbrake, Loggly, Google Analytics, MixPanel, et al, eventually you'll want to know how many people hit you with IE6 or NoScript, and you gave them the middle finger.
-
-Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s3/home). Give it a name like `logs.example.com` and update either your app's CloudFront distribution or your app's S3 bucket to write its log files to this log bucket.
 
 ## Apache, NginX, Lighttpd, etc
 
