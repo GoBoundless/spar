@@ -218,12 +218,6 @@ Next, you'll need visit the [AWS  S3 Console](https://console.aws.amazon.com/s3/
 
 ![create bucket](http://spar-screenshots.s3.amazonaws.com/s3_create_bucket.png)
 
-Specify your bucket in `config/production.rb`:
-
-```ruby
-    set :s3_bucket,               "app.example.com"
-```
-
 Next, you'll need to turn on [S3 Website Hosting](http://aws.typepad.com/aws/2011/02/host-your-static-website-on-amazon-s3.html) in the S3 console.
 
 ![bucket properties](http://spar-screenshots.s3.amazonaws.com/s3_bucket_properties.png)
