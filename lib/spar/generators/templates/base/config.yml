@@ -8,4 +8,3 @@ production:
   debug: false
   digest: true
   compress: true
-

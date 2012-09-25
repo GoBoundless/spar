@@ -6,12 +6,15 @@ module Spar
   autoload :Version, 'spar/version'
   autoload :CLI, 'spar/cli'
   autoload :Rewrite, 'spar/rewrite'
+  autoload :Exceptions, 'spar/exceptions'
   autoload :DirectiveProcessor, 'spar/directive_processor'
   autoload :Helpers, 'spar/helpers'
   autoload :Compressor, 'spar/compressor'
   autoload :Compiler, 'spar/compiler'
   autoload :CompiledAsset, 'spar/compiled_asset'
   autoload :Deployer, 'spar/deployers/deployer'
+  autoload :Assets, 'spar/assets'
+  autoload :PublicAssets, 'spar/public_assets'
 
   DEFAULTS = {
     'digest'   => false,
@@ -44,6 +47,14 @@ module Spar
 
   def self.environment=(environment)
     @environment = environment
+  end
+
+  def self.assets
+    @assets ||= Spar::Assets.new
+  end
+
+  def self.public_assets
+    @public_assets ||= Spar::PublicAssets.new
   end
 
   def self.sprockets
@@ -89,19 +100,30 @@ module Spar
   def self.app
     app = Rack::Builder.new do
 
+      # use Rack::Static, :root => Spar.root.join('public'), :urls => %w[/]
+
       use Spar::Rewrite
+      use Spar::Exceptions
 
-      map '/' do
-        run Spar.sprockets
-      end
-
-      use Rack::Static, :root => Spar.root.join('public'), :urls => %w[/]
+      run Rack::Cascade.new([Spar.sprockets, Spar.public_assets])
 
       use Rack::ContentType
 
-      run lambda { |env|
-        [404, {}, ['Not found']]
-      }
+      # run Rack::URLMap.new(
+      #   '/' => Spar.sprockets,
+      #   '/__spar__' => Spar.assets
+      # )
+      # map '/' do
+      #   run Spar.sprockets
+      # end
+
+      # map '/__spar__' do
+      #   run Spar.assets
+      # end
+
+      # use Rack::Static, :root => Spar.root.join('public'), :urls => %w[/]
+
+      # run Spar::NotFound.new
     end
   end
 
