@@ -98,7 +98,15 @@ first transforms to become:
     %title My App!
 ```
 
- according to their extensions, i.e., myfile.js.coffee.spar will first have symbols replaced according to the current Spar environment, and then passed through a Coffeescript compiler, ultimately outputting myfile.js.
+After Spar performs configuration replacement, it then process files according to their extensions.
+
+Inlcuded with Spar are transformations from:
+
+- `file.js.coffee` => `file.js`
+- `file.css.sass` => `file.css`
+- `file.css.less` => `file.less`
+
+# Managing Dependencies
 
 Multiple assets can be combined into one greater asset using some magic.
 
