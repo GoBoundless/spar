@@ -142,9 +142,6 @@ Both can be found at our [spar-examples](https://github.com/BoundlessLearning/sp
 
 # Deploying Your Spar App
 
-## GitHub Pages
-## Heroku
-
 ## Amazon Web Services
 
 Spar has full support for S3 and CloudFront out of the box. First, add your AWS credentials to `config/production.rb`. You can look these up on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page.
@@ -201,6 +198,14 @@ Now, every time you deploy, Spar will automatically issue CloudFront invalidatio
 ## Apache, NginX, Lighttpd, etc
 
 `rake assets:precompile` populates the `public/` directory with each view in its own `index.html`, which any web server should be able to serve with minimal configuration.
+
+## GitHub Pages
+
+    TODO
+
+## Heroku
+
+    TODO
 
 # Issues & Bugs
 
