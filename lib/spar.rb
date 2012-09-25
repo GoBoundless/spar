@@ -74,9 +74,9 @@ module Spar
       env.register_engine '.md',      Tilt::BlueClothTemplate
       env.register_engine '.textile', Tilt::RedClothTemplate
 
-      env.register_postprocessor 'text/css', Spar::DirectiveProcessor
+      env.register_postprocessor 'text/css',               Spar::DirectiveProcessor
       env.register_postprocessor 'application/javascript', Spar::DirectiveProcessor
-      env.register_postprocessor 'text/html', Spar::DirectiveProcessor
+      env.register_postprocessor 'text/html',              Spar::DirectiveProcessor
 
       env
     end
