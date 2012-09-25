@@ -37,7 +37,7 @@ $ spar server
 ```
   Your app will now be available at [http://localhost:8888](http://localhost:8888)
 
-# App Organization
+# Organization
 
   Spar apps are organized into the follow folders:
 
@@ -54,7 +54,7 @@ $ spar server
     Rakefile            #Necessary for Heroku deploys
     README              #your project README
     
-# App Configuration
+# Configuration
 
   `config.yml` defines your project's configuration for different environments. You may define any properties you like, which are available to you in your app directory files. 
 
@@ -79,7 +79,7 @@ $ spar server
   - `digest`: true/false, adds MD5 hashes to end of filenames
   - `compress`: true/false, JS and CSS compression (uglify, and yahoo UI CSS compressor)
 
-# The Asset Pipeline
+# Asset Pipeline
 
 All asset files in the `app` directory are transformed through the Spar asset pipeline. Transformation first occurs for configuration properties defined in `config.yml`, followed by JS/CSS asset-compilation and composition.
 
