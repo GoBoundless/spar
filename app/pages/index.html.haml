@@ -2,6 +2,7 @@
 %html
   %head
     %title Spar App
+    %link{:rel => "shortcut icon", :href => '/favicon.ico' }
     [{ stylesheet_link_tag(application) }]
   %body
     #main
@@ -37,10 +38,18 @@
             </code>
           </pre>
 
-        %h2 Liftoff
+        %h2 Lift-off!
         :plain
           <pre>
             <code>spar build YOUR_APP
             spar deploy YOUR_APP
             </code>
           </pre>
+
+      #contribute
+        %h2 Mission Control
+        %p A full mission brief can be found at <a href="http://github.com/boundlesslearning/spar"> our GitHub repo</a> here on planet Earth. 
+        %p Issues, forks, and pull requests will be addressed in a timely fashion!
+    :plain
+      <a href="https://github.com/boundlesslearning/spar"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+

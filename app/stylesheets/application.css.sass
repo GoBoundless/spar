@@ -10,6 +10,10 @@
 //= require_self
 //= require_tree .
 
+@mixin at-breakpoint
+  @media screen and (min-width: 600px)
+    @content
+
 @-webkit-keyframes STAR-MOVE 
   0%
     // +transform(translateX(0))
@@ -28,10 +32,15 @@ body
 a
   color: #73000A
 
+p,pre,li
+  &:last-child
+    margin-bottom: 0
+
 #main
   max-width: 600px
   margin: 0 auto
-  padding: 50px 0
+  +at-breakpoint
+    padding: 50px 0
   h1,h2
     margin: 0
     letter-spacing: -1px
@@ -39,18 +48,24 @@ a
 #header
   background: rgba(0,0,0,.75)
   padding: 20px
-  border-radius: 8px
   box-shadow: rgba(0,0,0,.5) 0 .5em 1em inset
   border: 1px solid rgba(0,0,0,.2)
-  margin: 50px 0
+  text-align: center
+  +at-breakpoint
+    margin: 50px 0
   position: relative
   padding: 40px
-  padding-left: 270px
+  +at-breakpoint
+    padding-left: 270px
+    border-radius: 8px
   img
-    width: 230px
-    position: absolute
-    top: -40px
-    left: 1em
+    width: 100px
+    position: relative
+    +at-breakpoint
+      width: 230px
+      position: absolute
+      top: -40px
+      left: 1em
   h1,h2
     margin: 0
     position: relative
@@ -77,12 +92,15 @@ a
   z-index: 1
   opacity: .25
 
-#intro,#get-started
-  margin: 50px 0
+#intro,#get-started,#contribute
   font-size: 13px
   background: rgba(255,255,255,.25)
-  border-radius: 8px
   padding: 40px
   border: 1px solid rgba(0,0,0,.1)
+  border-bottom-width: 0
   box-shadow: rgba(255,255,255,.5) 0 1em 2em inset
   text-shadow: rgba(255,255,255,.5) 0 1px 0
+  +at-breakpoint
+    margin: 50px 0
+    border-radius: 8px
+    border-bottom-width: 1px
