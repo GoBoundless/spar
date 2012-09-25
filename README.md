@@ -50,14 +50,14 @@ $ spar server
       /pages
         index.html.haml       #Your single, root HTML page
 
-    /public                   #Put files here that you want to be available to your application, but not managed as assets.
-      /downloads              #Any files in this folder will include a 'Content-Disposition: attachment;' header if deployed to S3
+    /public                   #File in here will be available to your application, but not managed as assets.
+      /downloads              #File in here will include a 'Content-Disposition: attachment;' header if deployed to S3
 
     /vendor                   #Put external libraries like jquery or bootstrap here
       /javascripts
       /stylesheets
     
-    config.yml                #ENV settings for dev, staging, prod
+    config.yml                #ENV settings for development, staging, production
     README                    #your project's README
     
 # Configuration
