@@ -1,11 +1,6 @@
-require './config/application'
-require 'rack-livereload'
-
-map "/assets" do
-  run App.asset_env
-end
+require 'bundler/setup'
+Bundler.require if File.exists?('Gemfile')
 
 map "/" do
-  use Rack::LiveReload
-  run App
+  run Spar.app
 end

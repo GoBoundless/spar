@@ -1,0 +1,82 @@
+// This is a manifest file that'll be compiled into application.css, which will include all the files
+// listed below.
+
+// Any CSS and SASS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+// or vendor/assets/stylesheets of gems, if any, can be referenced here using a relative path.
+
+// You're free to add application-wide styles to this file and they'll appear at the top of the
+// compiled file, but it's generally better to create a new file per style scope.
+
+//= require_self
+//= require_tree .
+
+@-webkit-keyframes STAR-MOVE 
+  0%
+    // +transform(translateX(0))
+    background-position: 0 0
+  100%  
+    // +transform(translateX(-10000px))
+    background-position: 10000% 0
+
+* 
+  box-sizing: border-box
+
+body
+  background: #B7D7E3
+  color: rgba(0,0,0,.75)
+
+a
+  color: #73000A
+
+h1,h2
+  margin: 0
+  letter-spacing: -1px
+
+#main
+  max-width: 600px
+  margin: 0 auto
+  padding: 50px 0
+
+#header
+  background: rgba(0,0,0,.75)
+  padding: 20px
+  border-radius: 8px
+  box-shadow: rgba(0,0,0,.5) 0 .5em 1em inset
+  border: 1px solid rgba(0,0,0,.2)
+  margin: 50px 0
+  position: relative
+  padding: 40px
+  padding-left: 270px
+  img
+    width: 230px
+    position: absolute
+    top: -40px
+    left: 1em
+  h1,h2
+    margin: 0
+    position: relative
+    color: white
+    text-shadow: rgba(0,0,0,1) 0 0 6px
+  h1
+    font-size: 42px
+  h2
+    font-weight: normal
+  img,h1,h2
+    z-index: 100
+
+#background 
+  // display: none
+  background: url(stars-pixels.png) repeat 0 0 
+  position: absolute
+  top: 0 
+  left: 0 
+  right: 0 
+  bottom: 0
+  z-index: 100
+  -webkit-animation: STAR-MOVE 200s linear infinite
+  -webkit-background-size: 50% 50%
+  z-index: 1
+  opacity: .25
+
+#intro,#get-started
+  margin: 50px 0

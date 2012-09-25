@@ -1,0 +1,11 @@
+default:
+  debug: true
+  digest: false
+  compress: false
+development:
+  debug: true
+production:
+  debug: false
+  digest: true
+  compress: true
+

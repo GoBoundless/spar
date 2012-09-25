@@ -1,0 +1,46 @@
+!!! Strict
+%html
+  %head
+    %title Spar App
+    [{ stylesheet_link_tag(application) }]
+  %body
+    #main
+      #header
+        %img{:src => 'logo.png'}
+        %h1 Spar
+        %h2 Single Page App Rocketship
+        #background
+
+      #intro
+        %h2 Ignition
+
+        %p
+          Spar is an opinionated framework that aims to ease single-page web-app development by addressing the major challenges:
+        
+        %ul
+          %li Asset organization
+          %li Compilation pipeline
+          %li Building &amp; deploying
+
+        %p Spar is designed for apps primarily built with HTML, CSS &amp; Javascript, and thus is platform agnostic.
+
+        :plain
+          <p>We&#8217;ve got <a href='http://github.com/boundlesslearning/spar-examples'>some examples</a> to get you going.</p>
+
+      #get-started
+        %h2 Launch Codes
+        :plain
+          <pre>
+            <code>gem install spar
+            spar YOUR_APP
+            spar server YOUR_APP
+            </code>
+          </pre>
+
+        %h2 Liftoff
+        :plain
+          <pre>
+            <code>spar build YOUR_APP
+            spar deploy YOUR_APP
+            </code>
+          </pre>
