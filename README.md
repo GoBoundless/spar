@@ -171,9 +171,9 @@ Both can be found at our [spar-examples](https://github.com/BoundlessLearning/sp
 
 Spar supports three different deployment methods out of the box:
 
-* 'local': Deploy your app to a directory local to your computer.
-* 's3': Deploy your app to an AWS S3 bucket.
-* 'cloudfront': Deploy your app to an AWS S3 bucket and invalidate a Cloudfront distribution.
+* `local`: Deploy your app to a directory local to your computer.
+* `s3`: Deploy your app to an AWS S3 bucket.
+* `cloudfront`: Deploy your app to an AWS S3 bucket and invalidate a Cloudfront distribution.
 
 To deploy your app, run:
 
