@@ -1,10 +1,6 @@
-# Spar
+# Introduction
 
-The *Single Page Application Rocketship*
-
-## Introduction
-
-Spar is an opinionated framework that aims to ease single-page web-app development by addressing major challenges:
+Spar, the *Single Page Application Rocketship*, is an opinionated framework that aims to ease single-page web-app development by addressing major challenges:
 
   * Asset organization
   * Compilation pipeline
@@ -14,11 +10,11 @@ Additionally, Spar provides templates & example projects for either a bare-bones
 
 Under the hood, Spar is a Rails-derived project, taking advantage of the powerful asset-pipeline, while stripping out legacy web-app support and introducing tools & patterns specific to single-page apps.
 
-## Requirements
+# Requirements
 
 * Ruby 1.9.2-p125
 
-## Installing Spar
+# Installing Spar
 
 ```bash
 $ gem install spar
@@ -30,7 +26,7 @@ If using `rbenv`:
 rbenv rehash
 ```
 
-## Getting Started
+# Getting Started
 
   Issue the following command to create a new Spar project:
 
@@ -39,10 +35,9 @@ $ spar myapp
 $ cd myapp
 $ spar server
 ```
+  Your app will now be available at [http://localhost:8888](http://localhost:8888)
 
-  At this point, you'll see the default Spar page... congrats!
-
-## App Organization
+# App Organization
 
   Spar apps are organized into the follow folders:
 
@@ -55,19 +50,24 @@ $ spar server
       /pages
         index.html.haml
     
-    /config
-      /environments     #configs per deployment
-        development.rb
-        staging.rb
-        production.rb
-
-    /lib                #I have no idea
-    /public             #I have no idea
-    /vendor             #I have no idea
-    README              #your project README
+    config.yml          #ENV settings for dev, staging, prod
     Rakefile            #Necessary for Heroku deploys
+    README              #your project README
+    
+# App Configuration
 
-## The Pipeline
+  `config.yml` defines your projects configuration for different environments.
+
+  Default project settings are defined as so:
+
+  ```yml
+  default:
+    debug: true
+    compress: false
+    my_api: http://localhost:8080
+  ```
+
+# The Pipeline
 
 All Spar asset files are processed according to their extensions, i.e., myfile.js.coffee.spar will first have symbols replaced according to the current Spar environment, and then passed through a Coffeescript compiler, ultimately outputting myfile.js.
 
@@ -75,7 +75,7 @@ Multiple assets can be combined into one greater asset using some magic.
 
 Likewise, myfile.css.sass goes through a similar transformation, and multiple CSS assets can be compiled into one greater asset.
 
-## Example & Bootstrap Apps
+# Example & Bootstrap Apps
 
 Included with Spar are two example applications. 
 
@@ -93,12 +93,12 @@ as well as:
   - Compass
   - Twitter Bootstrap
 
-## Deploying Your Spar App
+# Deploying Your Spar App
 
-### GitHub Pages
-### Heroku
+## GitHub Pages
+## Heroku
 
-### Amazon Web Services
+## Amazon Web Services
 
 Spar has full support for S3 and CloudFront out of the box. First, add your AWS credentials to `config/production.rb`. You can look these up on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page.
 
@@ -125,7 +125,7 @@ You'll need to create a new `CNAME` record. How this works is up to your hosting
 
     app.example.com. IN CNAME app.example.com.s3-website-us-east-1.amazonaws.com.
 
-#### CloudFront
+### CloudFront
 
 From here, it's easy to turn your fast site into a *really* fast site. From the [AWS  CloudFront Console](https://console.aws.amazon.com/cloudfront/home), create a new distribution *with the website form of your bucket name as the origin* and save the ID in `config/production.rb`.
 
@@ -138,20 +138,20 @@ Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfron
 
 Now, every time you deploy, Spar will automatically issue CloudFront invalidation requests for index.html (and anything else without a hash value). CloudFront invalidations usually take around 8 minutes, but they can take quite a bit lot longer when Amazon is having problems.
 
-#### About Logging
+### About Logging
 
 You'll probably want to be able to log requests to your site. Even though your app uses cutting edge webscale tools like Airbrake, Loggly, Google Analytics, MixPanel, et al, eventually you'll want to know how many people hit you with IE6 or NoScript, and you gave them the middle finger.
 
 Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s3/home). Give it a name like `logs.example.com` and update either your app's CloudFront distribution or your app's S3 bucket to write its log files to this log bucket.
 
-### Apache, NginX, Lighttpd, etc
+## Apache, NginX, Lighttpd, etc
 
 `rake assets:precompile` populates the `public/` directory with each view in its own `index.html`, which any web server should be able to serve with minimal configuration.
 
-## Issues & Bugs
+# Issues & Bugs
 
-Please use the Github issue tracker for Spar, https://github.com/BoundlessLearning/spar/issues
+Please use our Github [issue tracker](https://github.com/BoundlessLearning/spar/issues) for Spar
 
-## License
+# License
 
 Spar is licensed under the terms of the MIT License, see the included LICENSE file.
