@@ -137,7 +137,31 @@ If you want to serve one file, say `application.js`, that includes the content o
 #= require_tree ./models
 #= require_tree ./views
 ```
-CSS files are composed similarly.
+Stylesheet files are composed similarly, however directives should be placed in CSS/SASS comments appropriately:
+
+```css
+/*= require buttons.css */
+```
+
+## The Deploy Directive
+
+Spar needs to be told which files are fundemental to deployment.
+
+A typical web-app can have dozens of Javascript and CSS files. With Spar, most apps will compile into a single application.js and application.css file. Those files will include all other dependencies with the `require` and `require_tree` directives.
+
+To instruct Spar to deploy a JS or CSS file, you must add a deploy directive at the top:
+
+```coffeescript
+#= deploy
+```
+
+Or in CSS:
+
+```css
+/*= deploy */
+```
+
+This directive tells the deploy task to upload these files during a deploy. You only need to do this for Javascript and CSS based files, as Spar deploys all images, pages, and static files automatically.
 
 # Example Spar Applications
 
@@ -162,26 +186,6 @@ spar deploy poduction
 ```
 
 You can pass any environment name to the deploy command, but usually you'll either pass staging or production.
-
-## The Deploy Directive
-
-A typical web app can have tens or hundreds of javascript and css files. With spar, most apps with compile through a single application.js and application.css file. Those files will include all other dependencies with the require and require_tree directives mentioned above.
-
-Here's the catch: Spar has no way to know which files to include in deployments unless you tell it. To tell Spar to deploy a js or css file, just add a line like this at the top:
-
-```coffeescript
-#= deploy
-```
-
-Or in CSS:
-
-```css
-/*= deploy */
-```
-
-This directive will tell the deploy task that you want to upload these files along with your pages, images, and static files.
-
-Please note that you only need to do this for javascript and css based files. Spar deploys all images, pages, and static files automatically.
 
 ## Local Deployment
 
