@@ -100,6 +100,8 @@ first transforms to become:
     %title My App!
 ```
 
+## Compilation
+
 After Spar performs configuration replacement, it then process files according to their extensions.
 
 Inlcuded with Spar are transformations from:
@@ -108,7 +110,7 @@ Inlcuded with Spar are transformations from:
 - `file.css.sass` => `file.css`
 - `file.css.less` => `file.less`
 
-## Javascript & CSS Dependencies
+## Javascript & CSS Dependency Management
 
 Multiple Javascript files can be merged into a single file using the `require` and `require_tree` pre-processor directives.
 
