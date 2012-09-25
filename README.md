@@ -138,7 +138,8 @@ Spar has full support for S3 and CloudFront out of the box. First, add your AWS 
 
 Next, you'll need a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
 
-[screenshots of bucket creation process]
+![click here](http://spar-screenshots.s3.amazonaws.com/s3_click_here.png)
+![create bucket](http://spar-screenshots.s3.amazonaws.com/s3_create_bucket.png)
 
 Specify your bucket in `config/production.rb`:
 
@@ -148,7 +149,8 @@ Specify your bucket in `config/production.rb`:
 
 Next, you'll need to turn on [S3 Website Hosting](http://aws.typepad.com/aws/2011/02/host-your-static-website-on-amazon-s3.html) in the S3 console.
 
-[screenshots of enabling website hosting]
+![bucket properties](http://spar-screenshots.s3.amazonaws.com/s3_bucket_properties.png)
+![enable website](http://spar-screenshots.s3.amazonaws.com/s3_enable_website.png)
 
 You'll need to create a new `CNAME` record. How this works is up to your hosting provider, but it should look something like this.
 
