@@ -59,8 +59,8 @@ module Spar
         env.append_path(root.join('app', child_folder))
         env.append_path(root.join('vendor', child_folder))
         Gem.loaded_specs.each do |name, gem|
-          app.asset_env.append_path(File.join(gem.full_gem_path, 'vendor', 'assets', child_folder))
-          app.asset_env.append_path(File.join(gem.full_gem_path, 'app', 'assets', 'assets', child_folder))
+          env.append_path(File.join(gem.full_gem_path, 'vendor', 'assets', child_folder))
+          env.append_path(File.join(gem.full_gem_path, 'app', 'assets', 'assets', child_folder))
         end
       end
 
