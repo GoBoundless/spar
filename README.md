@@ -212,7 +212,7 @@ Now, every time you deploy, Spar will automatically issue CloudFront invalidatio
 
 # Issues & Bugs
 
-Please use our Github [issue tracker](https://github.com/BoundlessLearning/spar/issues) for Spar
+Please use our Github [issue tracker](https://github.com/BoundlessLearning/spar/issues) for Spar.
 
 # License
 
