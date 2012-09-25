@@ -144,12 +144,9 @@ Stylesheet files are composed similarly, however directives should be placed in 
 ```
 
 ## Deploy Directive
+Most Spar apps will compile into a single application.js and application.css file, each using the `deploy` directive to ensure the aggregate asset files are deployed.
 
-Spar needs to be told which JS and CSS files are fundemental to deployment, as opposed to components files that are used only for inclusion into larger files via the `require` and `require_tree` directives.
-
-(Most apps will compile into a single application.js and application.css file, each using the `deploy` directive.)
-
-To instruct Spar to deploy a JS or CSS file, add a deploy directive at the top of the file:
+If you wish to deploy additional root-level asset files, you may instruct Spar to do soby adding a deploy directive at the top of the file:
 
 ```coffeescript
 #= deploy
@@ -160,8 +157,7 @@ Or, in CSS:
 ```css
 /*= deploy */
 ```
-
-This directive instructs the deploy task to output & upload these files. You only need to do this for Javascript and CSS based files, as Spar deploys all images, pages, and static files automatically.
+You only need to do this for additional root-level Javascript and CSS based files, as Spar deploys all images, pages, and static files automatically.
 
 # Example Spar Applications
 
