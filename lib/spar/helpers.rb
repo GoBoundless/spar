@@ -9,14 +9,16 @@ module Spar
 
     def self.path_to(asset_name, options={})
       asset_name = asset_name.logical_path if asset_name.respond_to?(:logical_path)
-      path = paths.compute_public_path(asset_name, options)
+      path = paths.compute_public_path(asset_name, options.merge(:body => true))
       options[:body] ? "#{path}?body=1" : path
     end
 
     def self.javascript_include_tag(*sources)
       sources.collect do |source|
+        puts "javscript include #{source}"
         if Spar.settings['debug'] && asset = paths.asset_for(source, 'js')
           asset.to_a.map { |dep|
+            puts "javscript include inner #{source}"
             javascript_tag(path_to(dep, :ext => 'js', :body => true))
           }
         else
@@ -48,11 +50,11 @@ module Spar
     class Paths
       URI_REGEXP = %r{^[-a-z]+://|^cid:|^//}
 
-      def asset_for(source, ext)
+      def asset_for(source, ext, options={})
         source = source.to_s
         return nil if is_uri?(source)
         source = rewrite_extension(source, ext)
-        Spar.sprockets[source]
+        Spar.sprockets.find_asset(source, options)
       rescue Sprockets::FileOutsidePaths
         nil
       end
@@ -71,8 +73,8 @@ module Spar
         path =~ URI_REGEXP
       end
 
-      def digest_for(logical_path)
-        if Spar.settings['digests'] && !(logical_path =~ /\.html$/) && asset = Spar.sprockets.find_asset(logical_path)
+      def digest_for(logical_path, options={})
+        if Spar.settings['digests'] && !Spar.settings['debug'] && asset = Spar.sprockets.find_asset(logical_path, options)
           return asset.digest_path
         end
         return logical_path
@@ -82,7 +84,7 @@ module Spar
         if source[0] == ?/
           source
         else
-          source = digest_for(source)
+          source = digest_for(source, options)
           source = "/#{source}" unless source =~ /^\//
           source
         end
