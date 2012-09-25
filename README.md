@@ -79,13 +79,13 @@ $ spar server
   - `digest`: true/false, adds MD5 hashes to end of filenames
   - `compress`: true/false, JS and CSS compression (uglify, and yahoo UI CSS compressor)
 
-# The Pipeline
+# The Asset Pipeline
 
-All asset files in the `app` directory are transformed through the Spar pipeline.
+All asset files in the `app` directory are transformed through the Spar asset pipeline. Transformation first occurs for configuration properties defined in `config.yml`, followed by JS/CSS asset-compilation and composition.
 
-## Configuration Variable Replacement
+## Configuration Property Replacement
 
-First, configuration file substitution takes place according to your `config.yml` file. For instance, if your `index.html.haml` looks like this:
+First, configuration property substitution takes place according to your `config.yml` file. For instance, if your `index.html.haml` looks like this:
 
 ```haml
 %html
