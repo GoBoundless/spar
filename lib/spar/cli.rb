@@ -37,7 +37,7 @@ module Spar
 
         deployer.run(Spar::Compiler.assets)
       else
-        raise "You are trying to deploy to the #{environment} environment, but you have not declared a :deploy_strategy in congig.yml for this environment. The available options are: 'local', 's3', and 'cloudfront'."
+        raise "You are trying to deploy to the #{environment} environment, but you have not declared a :deploy_strategy in config.yml for this environment. The available options are: 'local', 's3', and 'cloudfront'."
       end
     end
 

@@ -13,18 +13,20 @@ module Spar
         end
       end
       Dir.chdir(Spar.root) do
-        Find.find('public').each do |path|
-          if FileTest.directory?(path)
-            if File.basename(path)[0] == '..'
-              Find.prune # Don't look any further into this directory.
+        if Dir.exists?('public')
+          Find.find('public').each do |path|
+            if FileTest.directory?(path)
+              if File.basename(path)[0] == '..'
+                Find.prune # Don't look any further into this directory.
+              else
+                next
+              end
             else
-              next
-            end
-          else
-            if File.basename(path) == '.DS_Store'
-              next
-            else
-              assets << Spar::CompiledAsset.new(path)
+              if File.basename(path) == '.DS_Store'
+                next
+              else
+                assets << Spar::CompiledAsset.new(path)
+              end
             end
           end
         end
