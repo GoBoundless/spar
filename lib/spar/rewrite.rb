@@ -15,7 +15,7 @@ module Spar
         if env['PATH_INFO'] == '/'
           env['PATH_INFO'] = '/index.html'
         else
-          unless env['PATH_INFO'] =~ /\.html$/
+          unless env['PATH_INFO'] =~ /\.[a-zA-Z]+$/
             env['PATH_INFO'] << '.html'
           end
         end

@@ -72,7 +72,7 @@ module Spar
       end
 
       def digest_for(logical_path)
-        if Spar.settings['digests'] && asset = Spar.sprockets[logical_path]
+        if Spar.settings['digests'] && !(logical_path =~ /\.html$/) && asset = Spar.sprockets.find_asset(logical_path)
           return asset.digest_path
         end
         return logical_path
