@@ -5,5 +5,3 @@ Gemfile.lock
 pkg/*
 tmp/*
 .sass-cache
-public/*
-public/**/*
