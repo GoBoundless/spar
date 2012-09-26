@@ -1,5 +1,5 @@
 PATH
-  remote: /Users/matthodgson/Documents/Git/spar
+  remote: /Users/ericfields/Boundless/spar
   specs:
     spar (1.0.0)
       aws-sdk
