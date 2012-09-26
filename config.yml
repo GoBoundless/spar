@@ -8,7 +8,7 @@ production:
   debug: false
   digest: true
   compress: true
-  asset_host: "http://boundlesslearning.github.com/spar"
+  asset_host: "http://goboundless.github.com/spar"
   deploy_strategy: local
   deploy_path: '../spar-pages-compiled'
 
