@@ -1,3 +1,4 @@
+require 'rack'
 require 'pathname'
 require 'sprockets'
 require 'haml'
@@ -50,6 +51,10 @@ module Spar
     @environment = environment
   end
 
+  def self.environment
+    @environment ||= ENV['SPAR_ENV'] || 'development'
+  end
+
   def self.assets
     @assets ||= Spar::Assets.new
   end
@@ -64,8 +69,6 @@ module Spar
 
   def self.sprockets
     @sprockets ||= begin
-      @environment ||= ENV['SPAR_ENV'] || 'development'
-
       env = Sprockets::Environment.new(root)
 
       if settings['compress']
@@ -104,31 +107,12 @@ module Spar
 
   def self.app
     app = Rack::Builder.new do
-
-      # use Rack::Static, :root => Spar.root.join('public'), :urls => %w[/]
-
       use Spar::Rewrite
       use Spar::Exceptions
 
       run Rack::Cascade.new([Spar.static, Spar.sprockets, Spar.not_found])
 
       use Rack::ContentType
-
-      # run Rack::URLMap.new(
-      #   '/' => Spar.sprockets,
-      #   '/__spar__' => Spar.assets
-      # )
-      # map '/' do
-      #   run Spar.sprockets
-      # end
-
-      # map '/__spar__' do
-      #   run Spar.assets
-      # end
-
-      # use Rack::Static, :root => Spar.root.join('public'), :urls => %w[/]
-
-      # run Spar::NotFound.new
     end
   end
 

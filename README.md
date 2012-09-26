@@ -12,7 +12,7 @@ Under the hood, Spar is a Sprockets-based, Rails-derived project. Spar uses Spro
 
 # Requirements
 
-* Ruby 1.9.2-p125
+* Ruby 1.9.2 or greater (preferably 1.9.3).
 
 # Installing Spar
 
@@ -50,7 +50,7 @@ $ spar server
       /pages
         index.html.haml       #Your single, root HTML page
 
-    /public                   #File in here will be available to your application, but not managed as assets.
+    /static                   #File in here will be available to your application, but not managed as assets.
       /downloads              #File in here will include a 'Content-Disposition: attachment;' header if deployed to S3
 
     /vendor                   #Put external libraries like jquery or bootstrap here

@@ -24,7 +24,7 @@ module Spar
       if options[:digest] && @asset
         @asset.digest_path
       else
-        @asset ? @logical_path : @logical_path.gsub(/^public\//,'')
+        @asset ? @logical_path : @logical_path.gsub(/^static\//,'')
       end
     end
 
@@ -40,7 +40,7 @@ module Spar
         headers[:content_type] = MIME::Types.of(@write_path).first
       end
 
-      if @logical_path =~ /public\/downloads\//
+      if @logical_path =~ /static\/downloads\//
         headers[:content_disposition] = "attachment; filename=#{File.basename(@write_path)}"
       end
 

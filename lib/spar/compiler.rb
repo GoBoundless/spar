@@ -13,8 +13,8 @@ module Spar
         end
       end
       Dir.chdir(Spar.root) do
-        if Dir.exists?('public')
-          Find.find('public').each do |path|
+        if Dir.exists?('static')
+          Find.find('static').each do |path|
             if FileTest.directory?(path)
               if File.basename(path)[0] == '..'
                 Find.prune # Don't look any further into this directory.

@@ -1,21 +1,16 @@
 namespace :assets do
-  desc "Compile all the assets"
+  desc "Compile all the assets to the public directory"
   task :precompile => :clean do
-    Spar::Helpers.configure do |config|
-      config.compile_assets    = true
-    end
+    puts "Precompiling Assets for environment #{Spar.environment}"
+    Spar.settings['deploy_path'] = 'public'
 
-    compiler = Spar::StaticCompiler.new(App)
-    compiler.compile
+    require "spar/deployers/local_deployer"
+
+    LocalDeployer.new.run(Spar::Compiler.assets)
   end
 
   desc "Remove compiled assets"
-  task :clean => :environment do
-    system "/bin/rm", "-rf", App.public_path
+  task :clean do
+    system "/bin/rm", "-rf", 'public'
   end
-end
-
-desc "Deploy a freshly precompiled site to S3 and purge CloudFront as is appropriate."
-task :deploy => "assets:precompile" do
-  Spar::Deployer.new(App).deploy
 end

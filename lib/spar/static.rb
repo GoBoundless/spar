@@ -8,10 +8,16 @@ module Spar
     def call(env)
       path = env["PATH_INFO"]
 
-      # Try getting the file form the public directory
+      # Try getting the file form the public directory - this overrides everything
       public_path = "#{Spar.root.join('public')}/#{path}"
       if File.exists?(public_path)
         return send_static(public_path, env)
+      end
+
+      # Try getting the file form the static directory
+      static_path = "#{Spar.root.join('static')}/#{path}"
+      if File.exists?(static_path)
+        return send_static(static_path, env)
       end
 
       # Try getting the file form the local spar gems assets
@@ -31,7 +37,7 @@ module Spar
         {
           "Last-Modified" => last_modified,
           "Content-Type" => Rack::Mime.mime_type(File.extname(path), 'text/plain')
-        }, 
+        },
         File.new(path)
       ]
     end
