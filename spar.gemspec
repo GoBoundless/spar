@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Spar::VERSION
   s.authors     = ["Matt Hodgson"]
   s.email       = ["matt@boundless.com"]
-  s.homepage    = "http://github.com/BoundlessLearning/spar"
+  s.homepage    = "http://boundlesslearning.github.com/spar"
   s.summary     = %q{A simple framework for developing single page web apps with support for haml, sass, coffeescript, and pretty much anything else.}
   s.description = %q{Spar uses Sprockets to provide an asset development environment very similar to the asset pipeline found in Rails. It allows you to use all the awesome features of the asset pipeline without all the heft of Rails.}
 
