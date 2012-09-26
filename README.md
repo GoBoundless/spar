@@ -32,10 +32,7 @@ The first is the quintessential TODO application as popularized by [addyosmani](
 
 Both can be found at our [spar-examples](https://github.com/GoBoundless/spar-examples) repo.
 
-You can also see demos of these apps (hosted on S3):
-
-  * [TODO](http://spar-demo-todo.boundless.com)
-  * [Bootstrap](http://spar-demo-bootstrap.boundless.com)
+You can also see a demo of the TODO app [here](http://spar-demo-todo.boundless.com).
 
 # Requirements
 
