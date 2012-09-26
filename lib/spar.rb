@@ -2,6 +2,8 @@ require 'rack'
 require 'pathname'
 require 'sprockets'
 require 'haml'
+require 'sass'
+require 'coffee-script'
 
 module Spar
   autoload :Version, 'spar/version'
@@ -94,8 +96,6 @@ module Spar
       end
 
       env.register_engine '.haml',    Tilt::HamlTemplate
-      env.register_engine '.md',      Tilt::BlueClothTemplate
-      env.register_engine '.textile', Tilt::RedClothTemplate
 
       env.register_postprocessor 'text/css',               Spar::DirectiveProcessor
       env.register_postprocessor 'application/javascript', Spar::DirectiveProcessor

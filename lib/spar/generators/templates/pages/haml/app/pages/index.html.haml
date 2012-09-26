@@ -1,11 +1,18 @@
-!!! Strict
+!!! 5
 %html
   %head
-    %title Spar App
+    %title New Spar App
     [{ stylesheet_link_tag(application) }]
+    
   %body
-    %h1
-      Nice app!
-    %h2
-      Point LiveReload to the directory of this project if you want to use it. No extensions or JS required.
+    #wrap
+      %img{src: "[{ path_to(spar.png) }]", width: 200}
+      #summary
+        %h1 Spar
+        %h2 Welcome to your new Spar app.
+        %p 
+          If you have any questions, please checkout out the 
+          %a{href: "https://github.com/GoBoundless/spar", target: "_blank"} README
+          on Github. Have Fun!
+
     [{ javascript_include_tag(application) }]

@@ -1,16 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html>
   <head>
-    <title>Spar App</title>
+    <title>New Spar App</title>
     [{ stylesheet_link_tag(application) }]
   </head>
   <body>
-    <h1>
-      Nice app!
-    </h1>
-    <h2>
-      Point LiveReload to the directory of this project if you want to use it. No extensions or JS required.
-    </h2>
+    <div id='wrap'>
+      <img src='[{ path_to(spar.png) }]' width='200' />
+      <div id='summary'>
+        <h1>Spar</h1>
+        <h2>Welcome to your new Spar app.</h2>
+        <p>
+          If you have any questions, please checkout out the
+          <a href='https://github.com/GoBoundless/spar' target='_blank'>README</a>
+          on Github. Have Fun!
+        </p>
+      </div>
+    </div>
     [{ javascript_include_tag(application) }]
   </body>
 </html>

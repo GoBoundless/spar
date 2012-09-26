@@ -319,9 +319,6 @@ TEMPLATE = <<-HTML # :nodoc:
       </table>
       <div class="clear"></div>
     </div> <!-- /RACK ENV -->
-
-    <p id="explanation">You're seeing this error because you have
-enabled the <code>show_exceptions</code> setting.</p>
   </div> <!-- /WRAP -->
   </body>
 </html>
