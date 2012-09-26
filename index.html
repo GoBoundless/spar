@@ -16,15 +16,25 @@
       <div id='intro'>
         <h2>Ignition</h2>
         <p>
-          Spar is an opinionated framework that aims to ease single-page web-app development by addressing the major challenges:
+          Spar is an opinionated framework that makes developing and deploying single-page web apps and static websites using modern front-end technology like SASS, Haml, and Coffeescript a cinch.
         </p>
+        <p>
+          We created Spar to decouple front-end development and deployment from specific backend languages like ruby, python, or Java.
+        </p>
+        <h4>Who should use Spar?</h4>
         <ul>
-          <li>Asset organization</li>
-          <li>Compilation pipeline</li>
-          <li>Building &amp; deploying</li>
+          <li>Developers who have completely decoupled web applications (i.e. Old New Twitter) who want to do front-end development with state of the art tools like Coffeescript and SASS independent of their backend API stack.</li>
+          <li>Designers who love using modern technology like SASS, Less, and Haml but don't feel comfortable running and deploying apps in frameworks like Rails or Django.</li>
+          <li>Anyone who needs to make simple static websites and host them as static files on S3 (i.e. for really really cheap).</li>
         </ul>
-        <p>Spar is designed for apps primarily built with HTML, CSS &amp; Javascript, and thus is platform agnostic.</p>
+        <p>Under the hood, Spar uses Rack and Sprockets to provide a powerful asset pipeline similar to Rail's asset pipeline. If you're familiar with the Rail's asset pipeline, you'll feel right at home with Spar.</p>
         <p>We&#8217;ve got <a href='http://github.com/GoBoundless/spar-examples'>some examples</a> to get you going.</p>
+        <h4>What makes Spar different?</h4>
+        <ul>
+          <li>Intepret configuration variables in your assets. For instance, setup an `api_url` variable that's different for your development vs. production environments.</li>
+          <li>No server-side language knowledge necessary. If you know how to type a few commands into the terminal you'll be good to go.</li>
+          <li>Built in support for CSS, Sass, Less, HTML, Haml, Javascript, Coffeescript, Compass, Haml-Coffeescript templating, and more.</li>
+        </ul>
       </div>
       <div id='get-started'>
         <h2>Launch Codes</h2>
