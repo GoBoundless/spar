@@ -48,10 +48,12 @@ module Spar
       elsif file_path = Spar.sprockets.resolve(logical_path)
         file = File.open(file_path, "rb").read
         if header = file[Sprockets::DirectiveProcessor::HEADER_PATTERN, 0]
-          if directive = header.lines.peek[Sprockets::DirectiveProcessor::DIRECTIVE_PATTERN, 1]
-            name, *args = Shellwords.shellwords(directive)
-            if name == 'deploy'
-              return deploy_directive_info(*args)
+          header.lines.each do |header|
+            if directive = header[Sprockets::DirectiveProcessor::DIRECTIVE_PATTERN, 1]
+              name, *args = Shellwords.shellwords(directive)
+              if name == 'deploy'
+                return deploy_directive_info(*args)
+              end
             end
           end
         end

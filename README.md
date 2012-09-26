@@ -216,52 +216,12 @@ production:
   deploy_bucket: "mysite.test.com"
 ```
 
-You'll need to enter your own credentials. You can find your S3 credentials on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page. 
-
-Next, you'll need visit the [AWS  S3 Console](https://console.aws.amazon.com/s3/home) and create a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
-
-![click here](http://spar-screenshots.s3.amazonaws.com/s3_click_here.png)
-
-![create bucket](http://spar-screenshots.s3.amazonaws.com/s3_create_bucket.png)
-
-Next, you'll need to turn on [S3 Website Hosting](http://aws.typepad.com/aws/2011/02/host-your-static-website-on-amazon-s3.html) in the S3 console.
-
-![bucket properties](http://spar-screenshots.s3.amazonaws.com/s3_bucket_properties.png)
-
-![enable website](http://spar-screenshots.s3.amazonaws.com/s3_enable_website.png)
-
-You'll need to create a new `CNAME` record. How this works is up to your hosting provider, but it should look something like this.
-
-    app.example.com. IN CNAME app.example.com.s3-website-us-east-1.amazonaws.com.
-
-### About Logging
-
-You'll probably want to be able to log requests to your site. Even though your app uses cutting edge webscale tools like Airbrake, Loggly, Google Analytics, MixPanel, et al, eventually you'll want to know how many people hit you with IE6 or NoScript, and you gave them the middle finger.
-
-Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s3/home). Give it a name like `logs.example.com` and update either your app's CloudFront distribution or your app's S3 bucket to write its log files to this log bucket.
-
-![enable logging](http://spar-screenshots.s3.amazonaws.com/s3_enable_logging.png)
+Now Spar will dpeloy your app directly to an S3 bucket. To learn more and see how to setup an S3 bucket as a website, see the (S3 Deployment Wiki Page)[https://github.com/BoundlessLearning/spar/wiki/S3-Deployment]
 
 
 ## CloudFront Deployment
 
-Cloudfront deployment is very similar to S3 deployment, but you need to add a `cloudfront_distribution` property to your config file:
-
-```yaml
-production:
-  deploy_strategy: cloudfront
-  aws_key: "my_access_key"
-  aws_secret: "my+super+secret+access+key"
-  deploy_bucket: "mysite.test.com"
-  cloudfront_distribution: "distribution+id"
-```
-Cloudfront will turn your fast site into a *really* fast site. From the [AWS  CloudFront Console](https://console.aws.amazon.com/cloudfront/home), create a new distribution *with the website form of your bucket name as the origin* and save the ID in your config.yml.
-
-Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfront.net`). You will need to replace the CNAME you created earlier.
-
-    app.example.com. IN CNAME d242ood0j0gl2v.cloudfront.net.
-
-Now, every time you deploy, Spar will automatically issue CloudFront invalidation requests for index.html (and anything else without a hash value). CloudFront invalidations usually take around 8 minutes, but they can take quite a bit lot longer when Amazon is having problems.
+For details on Cloudfront deploys please see the (Cloudfront Deployment Wiki Page)[https://github.com/BoundlessLearning/spar/wiki/Cloudfront-Deployment]
 
 # Issues & Bugs
 

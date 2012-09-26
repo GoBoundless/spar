@@ -44,6 +44,7 @@ module Spar
     desc 'version', 'Show the current version of Spar'
 
     def version
+      require 'spar/version'
       puts "Spar Version #{Spar::VERSION}"
     end
 

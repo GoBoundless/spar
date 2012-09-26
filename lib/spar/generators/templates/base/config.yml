@@ -5,7 +5,7 @@ default:
 
 development:
   debug: true
-  
+
 production:
   debug: false
   digest: true

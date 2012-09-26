@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{A simple framework for developing single page web apps with support for haml, sass, coffeescript, and pretty much anything else.}
   s.description = %q{Spar uses Sprockets to provide an asset development environment very similar to the asset pipeline found in Rails. It allows you to use all the awesome features of the asset pipeline without all the heft of Rails.}
 
-  s.required_ruby_version     = '>= 1.9.2'
+  s.required_ruby_version = '>= 1.9.2'
 
   s.files         = Dir["README.md", "bin/**/*", "lib/**/*"]
   s.require_path  = "lib"
