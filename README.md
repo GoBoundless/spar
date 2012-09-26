@@ -1,14 +1,41 @@
 # Introduction
 
-Spar, the *Single Page Application Rocketship*, is an opinionated framework that aims to ease single-page web-app development by addressing major challenges:
+Spar is an opinionated framework that makes developing and deploying single-page web apps and static websites using modern front-end technology like SASS, Haml, and Coffeescript a cinch.
 
-  * Asset organization
-  * Compilation pipeline
-  * Build & deployment support
+We created Spar to decouple front-end development and deployment from specific backend languages like ruby, python, or Java. 
 
-Additionally, Spar provides templates & example projects for either a bare-bones project, or one with some of our favorite tools pre-included.
+Who should use Spar? 
+	
+  * Developers who have completely decoupled web applications (i.e. Old New Twitter) who want to do front-end development with state of the art tools like Coffeescript and SASS independent of their backend API stack.
+  
+  * Designers who love using modern technology like SASS, Less, and Haml but don't feel comfortable running and deploying apps in frameworks like Rails or Django.
+  
+  * Anyone who needs to make simple static websites and host them as static files on S3 (i.e. for really really cheap).
 
-Under the hood, Spar is a Sprockets-based, Rails-derived project. Spar uses Sprockets to provide a powerful asset-pipeline, while stripping out legacy web-app support and introducing tools & patterns specific to single-page apps.
+Under the hood, Spar uses Rack and Sprockets to provide a powerful asset pipeline similar to Rail's asset pipeline. If you're familiar with the Rail's asset pipeline, you'll feel right at home with Spar. 
+
+What makes Spar different?
+
+  * Intepret configuration variables in your assets. For instance, setup an `api_url` variable that's different for your development vs. production environments.
+  
+  * No server-side language knowledge necessary. If you know how to type a few commands into the terminal you'll be good to go.
+  
+  * Built in support for CSS, Sass, Less, HTML, Haml, Javascript, Coffeescript, Compass, Haml-Coffeescript templating, and more.
+  
+If you run into issues, please use the [issues page](https://github.com/GoBoundless/spar/issues) to report them and we'll help you out.
+
+# Example Spar Applications
+
+For your reference, and to build on top of, we've created two example applications using Spar.
+
+The first is the quintessential TODO application as popularized by [addyosmani](http://addyosmani.github.com/todomvc/). The second, is a bootstrap application containing some of our favorite tools to kick-start the pretty (jQuery, Backbone, and Twitter Bootstrap).
+
+Both can be found at our [spar-examples](https://github.com/GoBoundless/spar-examples) repo.
+
+You can also see demos of these apps (hosted on S3):
+
+  * [TODO](http://spar-demo-todo.boundless.com)
+  * [Bootstrap](http://spar-demo-bootstrap.boundless.com)
 
 # Requirements
 
@@ -160,14 +187,6 @@ Or, in CSS:
 /*= deploy */
 ```
 You only need to do this for additional root-level Javascript and CSS based files, as Spar deploys all images, pages, and static files automatically.
-
-# Example Spar Applications
-
-For your reference, and to build on top of, we've created two example applications using Spar.
-
-The first is the quintessential TODO application as popularized by [addyosmani](http://addyosmani.github.com/todomvc/). The second, is a bootstrap application containing some of our favorite tools to kick-start the pretty (jQuery, Backbone, and Twitter Bootstrap).
-
-Both can be found at our [spar-examples](https://github.com/GoBoundless/spar-examples) repo.
 
 # Deploying Your Spar App
 
