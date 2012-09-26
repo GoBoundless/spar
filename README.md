@@ -66,18 +66,20 @@ $ spar server
 
   These settings may be overriden on a per-environment basis for `development`, `staging`, and `production` like so:
 
-    default:    
-      debug: true
-      my_app_name: My App!
-      my_api: http://localhost:8080
+```yaml
+default:    
+  debug: true
+  my_app_name: My App!
+  my_api: http://localhost:8080
 
-    staging:
-      debug: false
+staging:
+  debug: false
 
-    production:
-      debug: false
-      compress: true
-      my_api: http://production-api.mysite.com
+production:
+  debug: false
+  compress: true
+  my_api: http://production-api.mysite.com
+```
 
   Spar respects the following known configuration options:
 
@@ -187,16 +189,18 @@ You can pass any environment name to the deploy command, typically `staging` or 
 
 To deploy to a local directory, setup your `config.yml` file environments like so:
 
-    default:    
-      debug: true
+```yaml
+default:    
+  debug: true
 
-    staging:
-      deploy_strategy: local
-      deploy_path: compiled/staging
+staging:
+  deploy_strategy: local
+  deploy_path: compiled/staging
 
-    production:
-      deploy_strategy: local
-      deploy_path: compiled/production
+production:
+  deploy_strategy: local
+  deploy_path: compiled/production
+```
 
  The `deploy_path` may be either a relative path in your application or a global path on your computer.
 
@@ -204,11 +208,13 @@ To deploy to a local directory, setup your `config.yml` file environments like s
 
 To deploy to an S3 bucket, setup your environments like so:
 
-    production:
-      deploy_strategy: s3
-      aws_key: "my_access_key"
-      aws_secret: "my+super+secret+access+key"
-      deploy_bucket: "mysite.test.com"
+```yaml
+production:
+  deploy_strategy: s3
+  aws_key: "my_access_key"
+  aws_secret: "my+super+secret+access+key"
+  deploy_bucket: "mysite.test.com"
+```
 
 You'll need to enter your own credentials. You can find your S3 credentials on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page. 
 
@@ -241,13 +247,14 @@ Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s
 
 Cloudfront deployment is very similar to S3 deployment, but you need to add a `cloudfront_distribution` property to your config file:
 
-    production:
-      deploy_strategy: cloudfront
-      aws_key: "my_access_key"
-      aws_secret: "my+super+secret+access+key"
-      deploy_bucket: "mysite.test.com"
-      cloudfront_distribution: "distribution+id"
-
+```yaml
+production:
+  deploy_strategy: cloudfront
+  aws_key: "my_access_key"
+  aws_secret: "my+super+secret+access+key"
+  deploy_bucket: "mysite.test.com"
+  cloudfront_distribution: "distribution+id"
+```
 Cloudfront will turn your fast site into a *really* fast site. From the [AWS  CloudFront Console](https://console.aws.amazon.com/cloudfront/home), create a new distribution *with the website form of your bucket name as the origin* and save the ID in your config.yml.
 
 Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfront.net`). You will need to replace the CNAME you created earlier.
