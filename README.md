@@ -66,18 +66,20 @@ $ spar server
 
   These settings may be overriden on a per-environment basis for `development`, `staging`, and `production` like so:
 
-    default:    
-      debug: true
-      my_app_name: My App!
-      my_api: http://localhost:8080
+```yaml
+default:    
+  debug: true
+  my_app_name: My App!
+  my_api: http://localhost:8080
 
-    staging:
-      debug: false
+staging:
+  debug: false
 
-    production:
-      debug: false
-      compress: true
-      my_api: http://production-api.mysite.com
+production:
+  debug: false
+  compress: true
+  my_api: http://production-api.mysite.com
+```
 
   Spar respects the following known configuration options:
 
@@ -137,7 +139,27 @@ If you want to serve one file, say `application.js`, that includes the content o
 #= require_tree ./models
 #= require_tree ./views
 ```
-CSS files are composed similarly.
+Stylesheet files are composed similarly, however directives should be placed in CSS/SASS comments appropriately:
+
+```css
+/*= require buttons.css */
+```
+
+## Deploy Directive
+Most Spar apps will compile into a single `application.js` and `application.css` file, each including the `deploy` directive to ensure it is deployed.
+
+If you wish to deploy additional root-level asset files, you may instruct Spar to do so by adding a `deploy` directive at the top of the file like so:
+
+```coffeescript
+#= deploy
+```
+
+Or, in CSS:
+
+```css
+/*= deploy */
+```
+You only need to do this for additional root-level Javascript and CSS based files, as Spar deploys all images, pages, and static files automatically.
 
 # Example Spar Applications
 
@@ -151,9 +173,9 @@ Both can be found at our [spar-examples](https://github.com/BoundlessLearning/sp
 
 Spar supports three different deployment methods out of the box:
 
-* 'local': Deploy your app to a directory local to your computer.
-* 's3': Deploy your app to an AWS S3 bucket.
-* 'cloudfront': Deploy your app to an AWS S3 bucket and invalidate a Cloudfront distribution.
+* `local`: Deploy your app to a directory local to your computer.
+* `s3`: Deploy your app to an AWS S3 bucket.
+* `cloudfront`: Deploy your app to an AWS S3 bucket and invalidate a Cloudfront distribution.
 
 To deploy your app, run:
 
@@ -161,79 +183,46 @@ To deploy your app, run:
 spar deploy poduction
 ```
 
-You can pass any environment name to the deploy command, but usually you'll either pass staging or production.
-
-## The Deploy Directive
-
-A typical web app can have tens or hundreds of javascript and css files. With spar, most apps with compile through a single application.js and application.css file. Those files will include all other dependencies with the require and require_tree directives mentioned above.
-
-Here's the catch: Spar has no way to know which files to include in deployments unless you tell it. To tell Spar to deploy a js or css file, just add a line like this at the top:
-
-```coffeescript
-#= deploy
-```
-
-Or in CSS:
-
-```css
-/*= deploy */
-```
-
-This directive will tell the deploy task that you want to upload these files along with your pages, images, and static files.
-
-Please note that you only need to do this for javascript and css based files. Spar deploys all images, pages, and static files automatically.
+You can pass any environment name to the deploy command, typically `staging` or `production`.
 
 ## Local Deployment
 
-To deploy to a local directory, setup your config.yml file like so:
+To deploy to a local directory, setup your `config.yml` file environments like so:
 
-    default:    
-      debug: true
+```yaml
+default:    
+  debug: true
 
-    staging:
-      debug: false
-      deploy_strategy: local
-      deploy_path: compiled/staging
+staging:
+  deploy_strategy: local
+  deploy_path: compiled/staging
 
-    production:
-      debug: false
-      compress: true
-      deploy_strategy: local
-      deploy_path: compiled/production
+production:
+  deploy_strategy: local
+  deploy_path: compiled/production
+```
 
-Set the deploy_path to either a relative path in your application or a global path on your computer.
+ The `deploy_path` may be either a relative path in your application or a global path on your computer.
 
 ## S3 Deployment
 
-To deploy to an S3 bucket, setup your config.yml file like so:
+To deploy to an S3 bucket, setup your environments like so:
 
-    default:    
-      debug: true
+```yaml
+production:
+  deploy_strategy: s3
+  aws_key: "my_access_key"
+  aws_secret: "my+super+secret+access+key"
+  deploy_bucket: "mysite.test.com"
+```
 
-    staging:
-      debug: false
-
-    production:
-      debug: false
-      compress: true
-      deploy_strategy: s3
-      aws_key: "my_access_key"
-      aws_secret: "my+super+secret+access+key"
-      deploy_bucket: "mysite.test.com"
-
-Obviously you'll need to enter your own credentials. You can look your credentials up on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page. 
+You'll need to enter your own credentials. You can find your S3 credentials on the [AWS Security Credentials](https://portal.aws.amazon.com/gp/aws/securityCredentials) page. 
 
 Next, you'll need visit the [AWS  S3 Console](https://console.aws.amazon.com/s3/home) and create a bucket to host your app. We suggest using the same as your fully qualified domain name. You should not use this bucket for anything else.
 
 ![click here](http://spar-screenshots.s3.amazonaws.com/s3_click_here.png)
 
 ![create bucket](http://spar-screenshots.s3.amazonaws.com/s3_create_bucket.png)
-
-Specify your bucket in `config/production.rb`:
-
-```ruby
-    set :s3_bucket,               "app.example.com"
-```
 
 Next, you'll need to turn on [S3 Website Hosting](http://aws.typepad.com/aws/2011/02/host-your-static-website-on-amazon-s3.html) in the S3 console.
 
@@ -256,23 +245,16 @@ Create a bucket log using the [AWS  S3 Console](https://console.aws.amazon.com/s
 
 ## CloudFront Deployment
 
-Cloudfront deployment is very similar to S3 deployment, but you need to add a cloudfront_distribution to your config file:
+Cloudfront deployment is very similar to S3 deployment, but you need to add a `cloudfront_distribution` property to your config file:
 
-    default:    
-      debug: true
-
-    staging:
-      debug: false
-
-    production:
-      debug: false
-      compress: true
-      deploy_strategy: cloudfront
-      aws_key: "my_access_key"
-      aws_secret: "my+super+secret+access+key"
-      deploy_bucket: "mysite.test.com"
-      cloudfront_distribution: "distribution+id"
-
+```yaml
+production:
+  deploy_strategy: cloudfront
+  aws_key: "my_access_key"
+  aws_secret: "my+super+secret+access+key"
+  deploy_bucket: "mysite.test.com"
+  cloudfront_distribution: "distribution+id"
+```
 Cloudfront will turn your fast site into a *really* fast site. From the [AWS  CloudFront Console](https://console.aws.amazon.com/cloudfront/home), create a new distribution *with the website form of your bucket name as the origin* and save the ID in your config.yml.
 
 Take note of the **Domain Name** field (something like `d242ood0j0gl2v.cloudfront.net`). You will need to replace the CNAME you created earlier.
