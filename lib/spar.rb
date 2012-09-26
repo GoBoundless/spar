@@ -52,7 +52,7 @@ module Spar
   end
 
   def self.environment
-    @environment ||= ENV['SPAR_ENV'] || 'development'
+    @environment ||= ENV['SPAR_ENV'] || ENV['RACK_ENV'] || 'development'
   end
 
   def self.assets
@@ -126,8 +126,8 @@ module Spar
       pathname = Pathname.new(Spar.root).join("config.yml")
       begin
         yaml = YAML.load_file(pathname)
-        settings = DEFAULTS.merge(yaml['default'] || {}).merge(yaml[@environment] || {})
-        settings['environment'] = @environment
+        settings = DEFAULTS.merge(yaml['default'] || {}).merge(yaml[environment] || {})
+        settings['environment'] = environment
         settings
       rescue => e
         raise "Could not load the config.yml file: #{e.message}"
