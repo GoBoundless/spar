@@ -22,7 +22,7 @@ What makes Spar different?
   
   * Built in support for CSS, Sass, Less, HTML, Haml, Javascript, Coffeescript, Compass, Haml-Coffeescript templating, and more.
   
-If you run into issues, please use the issues page to report them and we'll help you out.
+If you run into issues, please use the [issues page](https://github.com/GoBoundless/spar/issues) to report them and we'll help you out.
 
 # Example Spar Applications
 
