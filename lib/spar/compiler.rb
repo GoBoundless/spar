@@ -42,7 +42,7 @@ module Spar
         }
       elsif logical_path =~ /\w+\.(?!js|css).+/
         return {
-          :digest         => Spar.settings['digests'], 
+          :digest         => Spar.settings['digest'], 
           :cache_control  => Spar.settings['cache_control']
         }
       elsif file_path = Spar.sprockets.resolve(logical_path)
@@ -67,7 +67,7 @@ module Spar
         options[arg.split(':')[0]] = arg.split(':')[1]
       end
       {
-        :digest         => Spar.settings['digests'],
+        :digest         => Spar.settings['digest'],
         :cache_control  => options['cache_control'] || Spar.settings['cache_control']
       }
     end

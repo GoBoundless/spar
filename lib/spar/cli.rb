@@ -26,10 +26,9 @@ module Spar
     desc 'deploy', 'Deploy the project.'
 
     def deploy(environment='production')
-      say "Deploying: #{Spar.root}"
-
       Spar.environment = environment
-      
+      say "Deploying #{Spar.root} to the #{Spar.environment} environment"
+
       if strategy = Spar.settings['deploy_strategy']
         require "spar/deployers/#{strategy}_deployer"
 

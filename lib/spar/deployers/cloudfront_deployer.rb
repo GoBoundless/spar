@@ -1,4 +1,5 @@
 require 'cloudfront-invalidator'
+require 'spar/deployers/s3_deployer'
 
 class CloudfrontDeployer < S3Deployer
 
