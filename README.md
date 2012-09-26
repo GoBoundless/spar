@@ -167,7 +167,7 @@ For your reference, and to build on top of, we've created two example applicatio
 
 The first is the quintessential TODO application as popularized by [addyosmani](http://addyosmani.github.com/todomvc/). The second, is a bootstrap application containing some of our favorite tools to kick-start the pretty (jQuery, Backbone, and Twitter Bootstrap).
 
-Both can be found at our [spar-examples](https://github.com/BoundlessLearning/spar-examples) repo.
+Both can be found at our [spar-examples](https://github.com/GoBoundless/spar-examples) repo.
 
 # Deploying Your Spar App
 
