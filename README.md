@@ -216,16 +216,16 @@ production:
   deploy_bucket: "mysite.test.com"
 ```
 
-Now Spar will dpeloy your app directly to an S3 bucket. To learn more and see how to setup an S3 bucket as a website, see the (S3 Deployment Wiki Page)[https://github.com/BoundlessLearning/spar/wiki/S3-Deployment]
+Now Spar will dpeloy your app directly to an S3 bucket. To learn more and see how to setup an S3 bucket as a website, see the (S3 Deployment Wiki Page)[https://github.com/GoBoundless/spar/wiki/S3-Deployment]
 
 
 ## CloudFront Deployment
 
-For details on Cloudfront deploys please see the (Cloudfront Deployment Wiki Page)[https://github.com/BoundlessLearning/spar/wiki/Cloudfront-Deployment]
+For details on Cloudfront deploys please see the (Cloudfront Deployment Wiki Page)[https://github.com/GoBoundless/spar/wiki/Cloudfront-Deployment]
 
 # Issues & Bugs
 
-Please use our Github [issue tracker](https://github.com/BoundlessLearning/spar/issues) for Spar.
+Please use our Github [issue tracker](https://github.com/GoBoundless/spar/issues) for Spar.
 
 # License
 
