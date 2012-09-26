@@ -3,7 +3,10 @@ require 'pathname'
 require 'sprockets'
 require 'haml'
 require 'sass'
+require 'sprockets-sass'
+require 'compass'
 require 'coffee-script'
+require 'haml_coffee_assets'
 
 module Spar
   autoload :Version, 'spar/version'
@@ -73,6 +76,9 @@ module Spar
     @sprockets ||= begin
       env = Sprockets::Environment.new(root)
 
+      HamlCoffeeAssets.config.namespace  = "window.HAML"
+      HamlCoffeeAssets.config.escapeHtml = false
+
       if settings['compress']
         env.js_compressor  = Compressor::JS.new
         env.css_compressor = Compressor::CSS.new
@@ -85,7 +91,7 @@ module Spar
         env.append_path(root.join('vendor', child_folder))
         Gem.loaded_specs.each do |name, gem|
           env.append_path(File.join(gem.full_gem_path, 'vendor', 'assets', child_folder))
-          env.append_path(File.join(gem.full_gem_path, 'app', 'assets', 'assets', child_folder))
+          env.append_path(File.join(gem.full_gem_path, 'app', 'assets', child_folder))
         end
       end
 
