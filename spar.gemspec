@@ -38,7 +38,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'test-unit'
   s.add_dependency 'mime-types'
   s.add_dependency 'aws-sdk'
-  s.add_dependency 'rack-livereload'
   s.add_dependency 'yui-compressor'
   s.add_dependency 'bluecloth'
 end
