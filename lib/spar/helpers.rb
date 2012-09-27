@@ -72,7 +72,7 @@ module Spar
       end
 
       def digest_for(logical_path, options={})
-        if Spar.settings['digests'] && !Spar.settings['debug'] && asset = Spar.sprockets.find_asset(logical_path, options)
+        if Spar.settings['digest'] && !Spar.settings['debug'] && asset = Spar.sprockets.find_asset(logical_path, options)
           return asset.digest_path
         end
         return logical_path
