@@ -61,6 +61,7 @@ class S3Deployer < Spar::Deployer
     else
       @bucket.objects[asset.write_path].write(asset.headers.merge(:data => asset.data))
     end
+    logger "Uploaded #{file} to S3"
   end
 
   def finish
