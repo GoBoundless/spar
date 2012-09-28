@@ -196,7 +196,7 @@ Spar supports three different deployment methods out of the box:
 To deploy your app, run:
 
 ```bash
-spar deploy poduction
+spar deploy production
 ```
 
 You can pass any environment name to the deploy command, typically `staging` or `production`.
