@@ -79,6 +79,9 @@ module Spar
       HamlCoffeeAssets.config.namespace  = "window.HAML"
       HamlCoffeeAssets.config.escapeHtml = false
 
+      Compass.configuration.project_path = "app"
+      Compass.configuration.images_path = "app/images"
+
       if settings['compress']
         env.js_compressor  = Compressor::JS.new
         env.css_compressor = Compressor::CSS.new
