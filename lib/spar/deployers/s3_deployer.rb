@@ -1,5 +1,4 @@
 require 'aws-sdk'
-require 'logger'
 
 class S3Deployer < Spar::Deployer
 
@@ -14,10 +13,7 @@ class S3Deployer < Spar::Deployer
     AWS.config(
       :access_key_id      => @aws_key,
       :secret_access_key  => @aws_secret,
-      :logger             => Logger.new($stderr),
-      :log_formatter      => AWS::Core::LogFormatter.colored
     )
-    AWS.config.logger.level = Logger::WARN
     @s3 = AWS::S3.new
     @bucket  = @s3.buckets[@deploy_bucket]
     unless @bucket.exists?
@@ -36,7 +32,6 @@ class S3Deployer < Spar::Deployer
   def age_out(old_assets)
     old_assets.flatten.each do |file|
       if Time.now - @bucket.objects[file].last_modified > @age_out
-        logger "Deleting #{file}"
         @bucket.objects[file].delete
       end
     end
@@ -61,7 +56,6 @@ class S3Deployer < Spar::Deployer
     else
       @bucket.objects[asset.write_path].write(asset.headers.merge(:data => asset.data))
     end
-    logger "Uploaded #{asset.write_path} to S3"
   end
 
   def finish
