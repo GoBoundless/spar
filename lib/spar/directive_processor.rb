@@ -13,7 +13,8 @@ module Spar
     protected
       
       def process_methods
-        @result.gsub!(/#{Spar.settings['interpolator_regex']}/ || /\[\{(.*?)\}\]/) do
+        interpolator_regex = Spar.settings['interpolator_regex'] || '\[\{(.*?)\}\]' 
+        @result.gsub!(/#{interpolator_regex}/) do
           command = $1.strip
           case command
           when /^path_to\((?<file_name>.*)\)$/
