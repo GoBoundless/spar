@@ -13,8 +13,8 @@ module Spar
     protected
       
       def process_methods
-        interpolator_regex = Spar.settings['interpolator_regex'] || '\[\{(.*?)\}\]' 
-        @result.gsub!(/#{interpolator_regex}/) do
+        Spar.settings['interpolator_regex'] ||= '\[\{(.*?)\}\]' 
+        @result.gsub!(/#{Spar.settings['interpolator_regex']}/) do
           command = $1.strip
           case command
           when /^path_to\((?<file_name>.*)\)$/
@@ -23,12 +23,11 @@ module Spar
             Spar::Helpers.javascript_include_tag(*($~[:file_names]).split(',').map(&:strip))
           when /^stylesheet_link_tag\((?<file_names>.*)\)$/
             Spar::Helpers.stylesheet_link_tag(*($~[:file_names]).split(',').map(&:strip))
-          else 
-            if variable = Spar.settings[command]
-              variable
-            else
-              raise "Could not find a value for: '#{command}'"
-            end
+          else
+            variable = Spar.settings
+            command.split('.').each { |key| variable = variable[key] }
+            raise "Could not find a value for: '#{command}'" unless variable
+            variable
           end
         end
       end
