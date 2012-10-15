@@ -144,3 +144,9 @@ module Spar
     end
 
 end
+
+module Sprockets
+  class Context
+    include Spar::Helpers
+  end
+end

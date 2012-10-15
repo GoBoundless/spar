@@ -3,19 +3,34 @@ require 'sprockets'
 module Spar
   module Helpers
 
-    def self.paths
-      @paths ||= Spar::Helpers::Paths.new()
+    class << self
+
+      def paths
+        @paths ||= Spar::Helpers::Paths.new()
+      end
+      
+      def append_features(context) # :nodoc:
+        context.class_eval do
+          context_methods = context.instance_methods(false)
+          Helpers.public_instance_methods.each do |method|
+            remove_method(method) if context_methods.include?(method)
+          end
+        end
+
+        super(context)
+      end
+
     end
 
-    def self.path_to(asset_name, options={})
+    def path_to(asset_name, options={})
       asset_name = asset_name.logical_path if asset_name.respond_to?(:logical_path)
-      path = paths.compute_public_path(asset_name, options.merge(:body => true))
+      path = Helpers.paths.compute_public_path(asset_name, options.merge(:body => true))
       options[:body] ? "#{path}?body=1" : path
     end
 
-    def self.javascript_include_tag(*sources)
+    def javascript_include_tag(*sources)
       sources.collect do |source|
-        if Spar.settings['debug'] && asset = paths.asset_for(source, 'js')
+        if Spar.settings['debug'] && asset = Helpers.paths.asset_for(source, 'js')
           asset.to_a.map { |dep|
             javascript_tag(path_to(dep, :ext => 'js', :body => true))
           }
@@ -25,13 +40,13 @@ module Spar
       end.join("\n")
     end
 
-    def self.javascript_tag(src)
+    def javascript_tag(src)
       "<script src='#{src}' charset='utf-8'></script>"
     end
 
-    def self.stylesheet_link_tag(*sources)
+    def stylesheet_link_tag(*sources)
       sources.collect do |source|
-        if Spar.settings['debug'] && asset = paths.asset_for(source, 'css')
+        if Spar.settings['debug'] && asset = Helpers.paths.asset_for(source, 'css')
           asset.to_a.map { |dep|
             stylesheet_tag(path_to(dep, :ext => 'css', :body => true, :protocol => :request))
           }
@@ -41,9 +56,40 @@ module Spar
       end.join("\n")
     end
 
-    def self.stylesheet_tag(src)
+    def stylesheet_tag(src)
       "<link href='#{src}' rel='stylesheet'>"
     end
+
+    ## Helper methods for the spar context
+    def audio_path(source, options = {})
+      path_to source, { :dir => 'audios' }.merge(options)
+    end
+    alias_method :path_to_audio, :audio_path
+
+    def font_path(source, options = {})
+      path_to source, { :dir => 'fonts' }.merge(options)
+    end
+    alias_method :path_to_font, :font_path
+
+    def image_path(source, options = {})
+      path_to source, { :dir => 'images' }.merge(options)
+    end
+    alias_method :path_to_image, :image_path
+
+    def javascript_path(source, options = {})
+      path_to source, { :dir => 'javascripts', :ext => 'js' }.merge(options)
+    end
+    alias_method :path_to_javascript, :javascript_path
+
+    def stylesheet_path(source, options = {})
+      path_to source, { :dir => 'stylesheets', :ext => 'css' }.merge(options)
+    end
+    alias_method :path_to_stylesheet, :stylesheet_path
+
+    def video_path(source, options = {})
+      path_to source, { :dir => 'videos' }.merge(options)
+    end
+    alias_method :path_to_video, :video_path
 
     class Paths
       URI_REGEXP = %r{^[-a-z]+://|^cid:|^//}

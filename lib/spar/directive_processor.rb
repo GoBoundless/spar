@@ -2,6 +2,8 @@ module Spar
 
   class DirectiveProcessor < Sprockets::Processor
 
+    include Spar::Helpers
+
     def evaluate(context, locals, &block)
       @result = data
       
@@ -18,11 +20,11 @@ module Spar
           command = $1.strip
           case command
           when /^path_to\((?<file_name>.*)\)$/
-            Spar::Helpers.path_to($~[:file_name])
+            path_to($~[:file_name])
           when /^javascript_include_tag\((?<file_names>.*)\)$/
-            Spar::Helpers.javascript_include_tag(*($~[:file_names]).split(',').map(&:strip))
+            javascript_include_tag(*($~[:file_names]).split(',').map(&:strip))
           when /^stylesheet_link_tag\((?<file_names>.*)\)$/
-            Spar::Helpers.stylesheet_link_tag(*($~[:file_names]).split(',').map(&:strip))
+            stylesheet_link_tag(*($~[:file_names]).split(',').map(&:strip))
           else
             variable = Spar.settings
             command.split('.').each { |key| variable = variable[key] }
