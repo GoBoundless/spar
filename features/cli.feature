@@ -1,7 +1,7 @@
-Feature: Spar
-  In order to generate a new spar app
-  As a CLI
-  I want to generate a bunch of files
+Feature: spar new
+  In order to get started on a new spar app
+  As a developer
+  I want to generate a project skeleton
 
   Scenario: Creating a new app
     When I run `spar new test_app`
