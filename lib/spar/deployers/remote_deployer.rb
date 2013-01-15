@@ -17,8 +17,16 @@ class RemoteDeployer < Spar::Deployer
 
   def deploy(asset)
     asset.write_to('/tmp')
-    Net::SCP.upload!(@host, @username, "/tmp/#{asset.write_path}", @deploy_path, :password => @password)    
+    upload(asset)    
     super
+  end
+  
+  def upload(asset)
+    if asset.write_path =~ /\.html$/ && !(asset.write_path =~ /\/?index\.html$/)
+      Net::SCP.upload!(@host, @username, "/tmp/#{asset.write_path.gsub(/\.html/, '/index.html')}", @deploy_path, :password => @password, :recursive => true)      
+    else
+      Net::SCP.upload!(@host, @username, "/tmp/#{asset.write_path}", @deploy_path, :password => @password, :recursive => true)      
+    end
   end
 
   def finish    
