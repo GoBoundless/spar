@@ -16,7 +16,11 @@ class RemoteDeployer < Spar::Deployer
   end
 
   def deploy(asset)
-    asset.write_to('/tmp')
+    if asset.write_path =~ /\.html$/ && !(asset.write_path =~ /\/?index\.html$/)
+      asset.write_to("/tmp/#{asset.write_path.gsub(/\.html/, '/index.html')}")
+    else
+      asset.write_to("/tmp")      
+    end    
     upload(asset)    
     super
   end
