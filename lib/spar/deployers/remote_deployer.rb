@@ -12,29 +12,26 @@ class RemoteDeployer < Spar::Deployer
       raise "ERROR: You should set :remote_host, :remote_username, :remote_password and :remote_path in your config.yml file so you can deploy to remote server"
     end
 
-    super    
+    super
   end
 
   def deploy(asset)
-    if asset.write_path =~ /\.html$/ && !(asset.write_path =~ /\/?index\.html$/)
-      asset.write_to("/tmp/#{asset.write_path.gsub(/\.html/, '/index.html')}")
-    else
-      asset.write_to("/tmp/#{asset.write_path}")      
-    end    
-    upload(asset)    
+    puts "Uploading: #{asset.write_path}"
+    asset.write_to("tmp")
+    upload(asset)
     super
   end
-  
+
   def upload(asset)
-    if asset.write_path =~ /\.html$/ && !(asset.write_path =~ /\/?index\.html$/)
-      Net::SCP.upload!(@host, @username, "/tmp/#{asset.write_path.gsub(/\.html/, '/index.html')}", @deploy_path, :password => @password, :recursive => true)      
-    else
-      Net::SCP.upload!(@host, @username, "/tmp/#{asset.write_path}", @deploy_path, :password => @password, :recursive => true)      
-    end
+      Net::SSH.start(@host, @username, :password => @password) do |ssh|
+          remote_dir = File.join(@deploy_path, File.dirname(asset.write_path))
+          ssh.exec!("mkdir -p #{remote_dir}")
+          ssh.scp.upload! "tmp/#{asset.write_path}", remote_dir
+      end
   end
 
-  def finish    
-    FileUtils.rm_rf 'tmp'    
+  def finish
+    FileUtils.rm_rf 'tmp'
   end
 
 end
