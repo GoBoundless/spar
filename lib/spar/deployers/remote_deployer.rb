@@ -1,4 +1,4 @@
-require 'net/scp'
+require 'net/ssh'
 require 'fileutils'
 
 class RemoteDeployer < Spar::Deployer
