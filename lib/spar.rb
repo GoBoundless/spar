@@ -112,6 +112,14 @@ module Spar
 
       env
     end
+
+    unless @already_externally_configured
+      @already_externally_configured = true
+      external_config_pathname = Pathname.new(Spar.root).join("config.rb")
+      load external_config_pathname if File.exist?(external_config_pathname)
+    end
+
+    @sprockets
   end
 
   def self.app
