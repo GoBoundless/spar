@@ -81,6 +81,7 @@ module Spar
 
       Compass.configuration.project_path = "app"
       Compass.configuration.images_path  = "app/images"
+      Compass.configuration.fonts_path   = "app/fonts"
 
       if settings['compress']
         env.js_compressor  = Compressor::JS.new
