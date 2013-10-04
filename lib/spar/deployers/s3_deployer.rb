@@ -6,6 +6,7 @@ class S3Deployer < Spar::Deployer
     @aws_key       = Spar.settings['aws_key']
     @aws_secret    = Spar.settings['aws_secret']
     @deploy_bucket = Spar.settings['deploy_bucket']
+    @s3_endpoint   = Spar.settings['s3_endpoint'] || AWS.config.s3_endpoint
     unless @aws_key and @aws_secret and @deploy_bucket
       raise "ERROR: You should set :aws_key, :aws_secret, and :deploy_bucket in your config.yml file so you can deploy to S3"
     end
@@ -13,6 +14,7 @@ class S3Deployer < Spar::Deployer
     AWS.config(
       :access_key_id      => @aws_key,
       :secret_access_key  => @aws_secret,
+      :s3_endpoint        => @s3_endpoint
     )
     @s3 = AWS::S3.new
     @bucket  = @s3.buckets[@deploy_bucket]
